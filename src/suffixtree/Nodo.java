@@ -9,8 +9,7 @@ public class Nodo{
     private Nodo suffixLink; /* Suffix Link */
     private List<Arista> aristas = new ArrayList<>(); /* Aristas que 
 							 salen del 
-							 Nodo */
-        
+							 Nodo */        
     /* Pone el 'enlace de sufijo' */
     public void setSuffixLink(Nodo link){
 	this.suffixLink = link;
@@ -24,5 +23,5 @@ public class Nodo{
     /* Regresa la lista de aristas saliendo del Nodo */
     public List<Arista> getAristas(){
 	return this.aristas;
-    }    
+    }
 }
