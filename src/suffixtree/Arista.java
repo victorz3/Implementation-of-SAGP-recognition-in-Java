@@ -13,10 +13,16 @@ public class Arista{
 	this.hasta = hasta;
 	this.inicio = inicio;
 	this.fin = fin;
+	desde.nuevaArista(this);
     }
 
     /* Regresa el índice de inicio de la Arista */
     public int getInicio(){
 	return this.inicio;
+    }
+
+    /* Regresa la longitud de la Arista */
+    public int longitud(){
+	return (fin-inicio) + 1;
     }
 }
