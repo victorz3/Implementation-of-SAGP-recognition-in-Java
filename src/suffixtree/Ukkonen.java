@@ -72,10 +72,10 @@ public class Ukkonen{
     /* Construye el árbol de sufijo para la cadena s */
     public SuffixTree ukkonen(String s){
 	char actual; /* Carácter leído en el paso actual */
-	
-	for(int i = 0; i < s.length(); ++i){
+     	for(int i = 0; i < s.length(); ++i){
 	    actual = s.charAt(i); /* Leemos el siguiente carácter */
 	    if(insertado(actual)){
+		restantes++; /* El sufijo va a quedar pendiente */
 		if(activeEdge == null){ /* Si no hay arista activa, 
 					   la creamos */
 		    activeEdge = this.busca(actual); /* Buscamos la 
@@ -85,9 +85,13 @@ public class Ukkonen{
 		    activeLength++;
 		}else{
 		    /* Checamos si ya nos salimos de la arista */
-		    if(activeLength + 1 >= activeEdge.longitud())
-			return null;
-			//Actualizar cosas 
+		    if(activeLength + 1 >= activeEdge.longitud()){
+			activeNode = activeEdge.getHasta();
+			activeEdge = null;
+			activeLength = 0;
+		    }else{ /* No nos salimos de la arista */
+			activeLength++;
+		    }
 		}
 	    }else{
 		//inserta(actual, activeNode, activeEdge, activeLength);

@@ -45,6 +45,9 @@ public class TestUkkonen{
 
     /* Prueba para insertado sin arista activa */
     @Test public void testInsertadoSinActiva(){
+	u.setActiveNode(n1);
+	u.setActiveEdge(null);
+	u.setActiveLength(0);
 	Assert.assertTrue(u.insertado('a'));
 	Assert.assertFalse(u.insertado('c'));
     }
@@ -55,6 +58,15 @@ public class TestUkkonen{
 	Assert.assertFalse(u.insertado('c'));
 	u.setActiveEdge(b);
 	u.setActiveLength(1);
+    }
+
+    /* Prueba para insertado con una arista que ya llegó al final */
+    @Test public void testInsertadoFinal(){
+	Arista x = new Arista(n1, n2, 0, 2);
+	Arista y = new Arista(n2, n3, 3, 3);
+	u.setActiveEdge(x);
+	u.setActiveLength(3);
+	Assert.assertTrue(u.insertado('a'));
     }
 
     /* Prueba para busca */
