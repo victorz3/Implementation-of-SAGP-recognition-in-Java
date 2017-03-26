@@ -3,12 +3,13 @@ package suffixtree;
 /* Representación de aristas */
 public class Arista{
 
-    private Nodo desde,hasta; /* Los Nodos que conecta la arista */
-    private Integer inicio,fin; /* Inicio y fin de la subcadena que esta arista 
-			       representa */
+    private final Nodo desde,hasta; /* Los Nodos que conecta la arista */
+    /* Inicio y fin de la subcadena que esta arista representa: */
+    private final int inicio;
+    private Integer fin; 
 
     /* Constructor estándar */
-    public Arista(Nodo desde, Nodo hasta, int inicio, int fin){
+    public Arista(Nodo desde, Nodo hasta, int inicio, Integer fin){
 	this.desde = desde;
 	this.hasta = hasta;
 	this.inicio = inicio;
@@ -41,8 +42,13 @@ public class Arista{
     }
 
     /* Regresa el índice final de la Arista */
-    public int getFin(){
+    public Integer getFin(){
 	return this.fin;
+    }
+
+    /* Cambia el punto de terminación de la Arista */
+    public void setFin(Integer fin){
+	this.fin = fin;
     }
     
 

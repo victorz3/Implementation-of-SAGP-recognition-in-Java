@@ -15,16 +15,16 @@ public class TestUkkonen{
     /* Expiración para que ninguna prueba tarde más de 5 segundos. */
     @Rule public Timeout expiracion = Timeout.seconds(5);
 
-    private static String banana = "banana#";
+    private static String banana = "banana";
     private static Ukkonen u = new Ukkonen(banana);
     private static Nodo n1 = new Nodo();
-    private static Arista a = new Arista(n1, n1, 0, 5);
+    private static Arista a = new Arista(n1, n1, 0, new Integer(5));
     private static Nodo n2 = new Nodo();
-    private static Arista b = new Arista(n1, n2, 1, 5);
+    private static Arista b = new Arista(n1, n2, 1, new Integer(5));
     private static Nodo n3 = new Nodo();
-    private static Arista c = new Arista(n1, n3, 3, 5);
+    private static Arista c = new Arista(n1, n3, 3, new Integer(5));
     private static Nodo n4 = new Nodo();
-    private static Arista d = new Arista(n1, n4, 2, 5);
+    private static Arista d = new Arista(n1, n4, 2, new Integer(5));
 
     /* Establecemos el Nodo activo del algoritmo */
     public TestUkkonen(){
@@ -62,8 +62,8 @@ public class TestUkkonen{
 
     /* Prueba para insertado con una arista que ya llegó al final */
     @Test public void testInsertadoFinal(){
-	Arista x = new Arista(n1, n2, 0, 2);
-	Arista y = new Arista(n2, n3, 3, 3);
+	Arista x = new Arista(n1, n2, 0, new Integer(2));
+	Arista y = new Arista(n2, n3, 3, new Integer(3));
 	u.setActiveEdge(x);
 	u.setActiveLength(3);
 	Assert.assertTrue(u.insertado('a'));
