@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+import java.util.List;
 
 /* Clase para pruebas unitarias de Ukkonen */
 public class TestUkkonen{
@@ -25,7 +26,7 @@ public class TestUkkonen{
     private static Arista c = new Arista(n1, n3, 3, new Integer(5));
     private static Nodo n4 = new Nodo();
     private static Arista d = new Arista(n1, n4, 2, new Integer(5));
-
+    
     /* Establecemos el Nodo activo del algoritmo */
     public TestUkkonen(){
 	u.setActiveNode(n1);
@@ -73,6 +74,26 @@ public class TestUkkonen{
     @Test public void testBusca(){
 	Assert.assertTrue(u.busca('w') == null);
 	Assert.assertTrue(u.busca('n').equals(d));              
+    }
+
+    /* Prueba para split */
+    @Test public void testSplit(){
+	Ukkonen u2 = new Ukkonen("abcabx");
+	Nodo raiz = new Nodo();
+	u2.setActiveNode(raiz);
+	Arista a1 = new Arista(raiz, new Nodo(), 0, 5); //abcabx
+	Arista a2 = new Arista(raiz, new Nodo(), 1, 5); //bcabx
+	Arista a3 = new Arista(raiz, new Nodo(), 2, 5); //cabx
+	u2.setActiveEdge(a1);
+	u2.setActiveLength(2);
+	u2.split(5);
+	Assert.assertTrue(a1.getFin() == 1);
+	List<Arista> vecinos = a1.getHasta().getAristas();
+	Assert.assertTrue(vecinos.size() == 2);
+	Arista a4 = vecinos.get(0);
+	Arista a5 = vecinos.get(1);
+	Assert.assertTrue(a4.longitud() == 4);
+	Assert.assertTrue(a5.longitud() == 1);
     }
     
 }

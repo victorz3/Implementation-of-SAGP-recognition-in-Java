@@ -7,9 +7,8 @@ import java.util.ArrayList;
 public class Nodo{
 
     private Nodo suffixLink; /* Suffix Link */
-    private List<Arista> aristas = new ArrayList<>(); /* Aristas que 
-							 salen del 
-							 Nodo */        
+    private List<Arista> aristas = new ArrayList<>(); /* Aristas que salen del Nodo */        
+    
     /* Pone el 'enlace de sufijo' */
     public void setSuffixLink(Nodo link){
 	this.suffixLink = link;

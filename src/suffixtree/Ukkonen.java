@@ -7,8 +7,7 @@ public class Ukkonen{
        de Ukkonen */
     private Arista activeEdge = null;
     private int activeLength = 0;
-    private int restantes = 1; /* Sufijos por insertar en la ronda 
-				  actual del algoritmo de Ukkonen */
+    private int restantes = 0; /* Sufijos por insertar en la ronda actual del algoritmo de Ukkonen */
     private final Nodo root = new Nodo(); /* La raíz del árbol */
     private Nodo activeNode = root; /* El nodo activo debe inicializarse en la raíz */
     
@@ -19,8 +18,7 @@ public class Ukkonen{
 	if(!s.contains("#"))
 	    this.s = s + "#";
 	else
-	    throw new IllegalArgumentException("La cadena no puede contener el carácter especial '#'");
-	    
+	    throw new IllegalArgumentException("La cadena no puede contener el carácter especial '#'");	    
     }
     
     /* Pone un nuevo nodo activo. 
@@ -39,7 +37,7 @@ public class Ukkonen{
      * Este método se usa principalmente para pruebas */
     public void setActiveLength(int i){
 	this.activeLength = i;
-    }    
+    }
 
     /* Nos dice si la arista empieza con el carácter dado. */
     public boolean startsWith(char caracter, Arista a){
@@ -75,27 +73,28 @@ public class Ukkonen{
 	return false;
     }
 
-    /* Parte la arista activa e inserta un sufijo. */
-    /* Indice final representa el último índice leído */
-    public void split(Integer indiceFinal){
-	/* Vamos a insertar dos aristas, por lo que necesitamos dos nodos: */
-	Nodo split1 = new Nodo();
-	Nodo split2 = new Nodo();
-       	activeEdge.setFin(new Integer(activeLength));
-	/* Como dije, creamos dos aristas: */
-	Arista nueva1 = new Arista(activeEdge.getHasta(), split1, activeLength+1, indiceFinal);
-	Arista nueva2 = new Arista(activeEdge.getHasta(), split2, indiceFinal.intValue(), indiceFinal);
+    /* Parte una arista en 2 (inserta un sufijo en una arista) */
+    public void split(Integer indice){
+	int puntoPartida = activeEdge.getInicio()+(activeLength-1); /* Punto en el que partimos nuestra arista */
+	activeEdge.setFin(new Integer(puntoPartida));
+	/* Dos nuevos nodos en los que se divide la arista: */
+	Nodo nuevo1 = new Nodo();
+	Nodo nuevo2 = new Nodo();
+	Arista nueva1 = new Arista(activeEdge.getHasta(), nuevo1, puntoPartida+1, indice);
+	Arista nueva2 = new Arista(activeEdge.getHasta(), nuevo2, indice, indice);
     }
     
     /* Construye el árbol de sufijo para la cadena s */
     public SuffixTree ukkonen(String s){
+	Nodo ultimoSplit; /* Último nodo sobre el que se hizo split */
 	char actual; /* Carácter leído en el paso actual */
 	Integer i; /* Contador. 
 		    * Uso Integer para que cada que lo incremente, se incremente en las Aristas */
-     	for(i = 0; i < s.length(); ++i){
+	for(i = 0; i < s.length(); ++i){
+	    boolean primeroInsertado = true; /* Nos dice si el sufijo fue el primero en insertarse en esta iteración */
 	    actual = s.charAt(i); /* Leemos el siguiente carácter */
+	    restantes++; /* Un sufijo más por insertar */
 	    if(insertado(actual)){
-		restantes++; /* El sufijo va a quedar pendiente */
 		if(activeEdge == null){ /* Si no hay arista activa, 
 					   la creamos */
 		    activeEdge = this.busca(actual); /* Buscamos la 
@@ -114,15 +113,18 @@ public class Ukkonen{
 		}
 	    }else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
-		if(activeNode == root){
-		    Nodo nuevo = new Nodo(); /* Creamos un nuevo Nodo que será el final de la Arista que insertemos */
-		    Arista nueva = new Arista(root, nuevo, i.intValue(), i); /* La arista que insertamos */
-		}else{ /* Se viene el caso complicado */
-		    split(i);
+		while(restantes > 0){
+		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
+			Nodo nuevo = new Nodo(); /* Extremo de la nueva arista */
+			Arista nueva = new Arista(activeNode, nuevo, i.intValue(), i);
+			restantes--;
+		    }else{ /* Partimos la arista */
+			split(i);
+			// Actualización de parámetros pendiente 
+		    }
 		}
 	    }
-	    
 	}
-	return null;
+    return null;
     }
 }
