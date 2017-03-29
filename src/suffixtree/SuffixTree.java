@@ -13,4 +13,11 @@ public class SuffixTree{
 	this.cadena = cadena;
 	this.raiz = raiz;
     }
+
+    /* Imprime todos los sufijos de la cadena */
+    public void printSufijos(){
+	for(Arista vecino: raiz.getAristas()){
+	    System.out.println(vecino.subcadena(this.cadena));
+	}
+    }
 }

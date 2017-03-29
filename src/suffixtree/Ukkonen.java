@@ -83,48 +83,74 @@ public class Ukkonen{
 	Arista nueva1 = new Arista(activeEdge.getHasta(), nuevo1, puntoPartida+1, indice);
 	Arista nueva2 = new Arista(activeEdge.getHasta(), nuevo2, indice, indice);
     }
+
+    /* Rutina para cuando un carácter ya fue insertado */
+    public void rutinaInsertado(char actual){
+	if(activeEdge == null){ /* Si no hay arista activa, la creamos */
+	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
+	    activeLength++;
+	}else{
+	    /* Checamos si ya nos salimos de la arista */
+	    if(activeLength + 1 >= activeEdge.longitud()){
+		activeNode = activeEdge.getHasta();
+		activeEdge = null;
+		activeLength = 0;
+	    }else /* No nos salimos de la arista */
+		activeLength++;
+	}
+    }
     
     /* Construye el árbol de sufijo para la cadena s */
-    public SuffixTree ukkonen(String s){
-	Nodo ultimoSplit; /* Último nodo sobre el que se hizo split */
+    public SuffixTree ukkonen(){
 	char actual; /* Carácter leído en el paso actual */
 	Integer i; /* Contador. 
 		    * Uso Integer para que cada que lo incremente, se incremente en las Aristas */
 	for(i = 0; i < s.length(); ++i){
+	    Nodo ultimoSplit = null; /* Último nodo sobre el que se hizo split */
 	    boolean primeroInsertado = true; /* Nos dice si el sufijo fue el primero en insertarse en esta iteración */
 	    actual = s.charAt(i); /* Leemos el siguiente carácter */
 	    restantes++; /* Un sufijo más por insertar */
-	    if(insertado(actual)){
-		if(activeEdge == null){ /* Si no hay arista activa, 
-					   la creamos */
-		    activeEdge = this.busca(actual); /* Buscamos la 
-							arista que 
-							empieza con el 
-							carácter */
-		    activeLength++;
-		}else{
-		    /* Checamos si ya nos salimos de la arista */
-		    if(activeLength + 1 >= activeEdge.longitud()){
-			activeNode = activeEdge.getHasta();
-			activeEdge = null;
-			activeLength = 0;
-		    }else /* No nos salimos de la arista */
-			activeLength++;
-		}
-	    }else{ /* El carácter no se ha insertado */
+	    if(insertado(actual))
+		rutinaInsertado(actual);
+	    else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
-		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
+		    if(!primeroInsertado){
+			if(insertado(actual))
+			    rutinaInsertado(actual);
+		    }if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
 			Nodo nuevo = new Nodo(); /* Extremo de la nueva arista */
 			Arista nueva = new Arista(activeNode, nuevo, i.intValue(), i);
 			restantes--;
+			primeroInsertado = false;
 		    }else{ /* Partimos la arista */
 			split(i);
-			// Actualización de parámetros pendiente 
+			if(!primeroInsertado){
+			    if(ultimoSplit != null) /* Namás reviso esto porque pinche java */
+				ultimoSplit.setSuffixLink(activeEdge.getHasta()); /* Actualización de enlace de sufijo */
+			}else 
+			    primeroInsertado = false;
+			/* Actualizamos el último nodo insertado */
+			ultimoSplit = activeEdge.getHasta();
+			restantes--;
+			if(activeNode == root){
+			    activeLength--;
+			    activeEdge = busca(s.charAt((i-restantes)+1));
+			}else{
+			    activeNode = activeNode.getSuffixLink();
+			    if(activeNode == null)
+				activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
+			}
 		    }
 		}
 	    }
 	}
-    return null;
+	return new SuffixTree(s, root);
+    }
+
+    public static void main(String[] args){
+	Ukkonen u = new Ukkonen("banana");
+	SuffixTree t = u.ukkonen();
+	t.printSufijos();
     }
 }

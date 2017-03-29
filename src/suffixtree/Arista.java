@@ -56,4 +56,10 @@ public class Arista{
     public int longitud(){
 	return (fin-inicio) + 1;
     }
+
+    /* Regresa la subcadena representada por la Arista */
+    public String subcadena(String s){
+	return s.substring(inicio, fin+1);
+    }
+
 }

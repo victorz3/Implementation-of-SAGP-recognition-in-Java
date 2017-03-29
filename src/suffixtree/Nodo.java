@@ -6,12 +6,17 @@ import java.util.ArrayList;
 /* Clase Nodo para representar nodos de árboles de sufijo */
 public class Nodo{
 
-    private Nodo suffixLink; /* Suffix Link */
+    private Nodo suffixLink = null; /* Suffix Link */
     private List<Arista> aristas = new ArrayList<>(); /* Aristas que salen del Nodo */        
     
     /* Pone el 'enlace de sufijo' */
     public void setSuffixLink(Nodo link){
 	this.suffixLink = link;
+    }
+
+    /* Regresa el 'enlace de sufijo' */
+    public Nodo getSuffixLink(){
+	return suffixLink;
     }
 
     /* Agrega una arista que sale del Nodo */

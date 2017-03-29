@@ -10,7 +10,7 @@
     <jar jarfile="suffixtree.jar">
       <zipfileset dir="${build.dir}" prefix="" />
       <manifest>
-        <attribute name="Main-Class" value="suffixtree.Suffixtree"/>
+        <attribute name="Main-Class" value="suffixtree.Ukkonen"/>
       </manifest>
     </jar>
   </target>
