@@ -1,15 +1,17 @@
 package suffixtree;
 
+import utileria.MutableInt;
+
 /* Representación de aristas */
 public class Arista{
 
     private final Nodo desde,hasta; /* Los Nodos que conecta la arista */
     /* Inicio y fin de la subcadena que esta arista representa: */
     private final int inicio;
-    private Integer fin; 
-
+    private MutableInt fin; /* Hacemos que el final se pueda mutar para poder "partir" aristas */ 
+    
     /* Constructor estándar */
-    public Arista(Nodo desde, Nodo hasta, int inicio, Integer fin){
+    public Arista(Nodo desde, Nodo hasta, int inicio, MutableInt fin){
 	this.desde = desde;
 	this.hasta = hasta;
 	this.inicio = inicio;
@@ -23,7 +25,7 @@ public class Arista{
 	if(!(o instanceof Arista))
 	    return false;
 	Arista otra = (Arista) o; /* Necesario hacer un cast para comparar */
-	return desde.equals(otra.getDesde()) && hasta.equals(otra.getHasta()) && inicio == otra.getInicio() && fin == otra.getFin();
+	return desde.equals(otra.getDesde()) && hasta.equals(otra.getHasta()) && inicio == otra.getInicio() && fin.equals(otra.getFin());
     }
 
     /* Regresa el Nodo inicial de la Arista */
@@ -42,24 +44,32 @@ public class Arista{
     }
 
     /* Regresa el índice final de la Arista */
-    public Integer getFin(){
+    public MutableInt getFin(){
 	return this.fin;
     }
 
     /* Cambia el punto de terminación de la Arista */
-    public void setFin(Integer fin){
+    public void setFin(MutableInt fin){
 	this.fin = fin;
     }
-    
 
     /* Regresa la longitud de la Arista */
     public int longitud(){
-	return (fin-inicio) + 1;
+	return (fin.getValue()-inicio) + 1;
     }
 
     /* Regresa la subcadena representada por la Arista */
     public String subcadena(String s){
-	return s.substring(inicio, fin+1);
+	try{
+	    return s.substring(inicio, fin.getValue()+1);
+	}catch(StringIndexOutOfBoundsException e){
+	    return s.substring(inicio, fin.getValue());
+	}
+    }
+    
+    /* Regresa el primer carácter de la Arista dentro de la cadena s. */
+    public char getPrimero(String s){
+	return s.charAt(inicio);
     }
 
 }
