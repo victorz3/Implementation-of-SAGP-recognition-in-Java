@@ -14,8 +14,6 @@ public class Ukkonen{
     private Nodo activeNode = root; /* El nodo activo debe inicializarse en la raíz */
     
     /* Creamos el objeto para ejecutar el algoritmo de Ukkonen con la 
-
-
      * cadena s */
     public Ukkonen(String s) throws IllegalArgumentException{
 	/* Voy a revisar si la cadena contiene '#', el símbolo de terminación */
@@ -80,12 +78,21 @@ public class Ukkonen{
     /* Parte una arista en 2 (inserta un sufijo en una arista) */
     public void split(MutableInt indice){
 	int puntoPartida = activeEdge.getInicio()+(activeLength-1); /* Punto en el que partimos nuestra arista */
-	activeEdge.setFin(new MutableInt(puntoPartida));
-	/* Dos nuevos nodos en los que se divide la arista: */
-	Nodo nuevo1 = new Nodo();
-	Nodo nuevo2 = new Nodo();
-	Arista nueva1 = new Arista(activeEdge.getHasta(), nuevo1, puntoPartida+1, indice);
-	Arista nueva2 = new Arista(activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
+	if(activeEdge.getHasta().esHoja()){
+	    activeEdge.setFin(new MutableInt(puntoPartida));
+	    /* Dos nuevos nodos en los que se divide la arista: */
+	    Nodo nuevo1 = new Nodo();
+	    Nodo nuevo2 = new Nodo();
+	    Arista nueva1 = new Arista(activeEdge.getHasta(), nuevo1, puntoPartida+1, indice);
+	    Arista nueva2 = new Arista(activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
+	}else{
+	    Nodo nuevo1 = new Nodo(); /* Nuevo nodo hasta el que llega la arista */
+	    Arista conexion = new Arista(nuevo1, activeEdge.getHasta(), puntoPartida+1, activeEdge.getFin());
+	    activeEdge.setHasta(nuevo1);
+	    activeEdge.setFin(new MutableInt(puntoPartida));
+	    Nodo nuevo2 = new Nodo(); /* Nodo recién insertado */
+	    Arista nueva = new Arista(activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
+	}
     }
 
     /* Rutina para cuando un carácter ya fue insertado */
@@ -103,7 +110,7 @@ public class Ukkonen{
 	    }else /* No nos salimos de la arista */
 		activeLength++;
 	}
-	System.out.printf("Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);
+	System.out.printf("ActiveNode: %s, Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", activeNode == root ? "root" : activeNode.getPadre().subcadena(s), restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);
     }
     
     /* Construye el árbol de sufijo para la cadena s */

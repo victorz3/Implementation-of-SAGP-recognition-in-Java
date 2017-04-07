@@ -5,7 +5,7 @@ import utileria.MutableInt;
 /* Representación de aristas */
 public class Arista{
 
-    private final Nodo desde,hasta; /* Los Nodos que conecta la arista */
+    private Nodo desde,hasta; /* Los Nodos que conecta la arista */
     /* Inicio y fin de la subcadena que esta arista representa: */
     private final int inicio;
     private MutableInt fin; /* Hacemos que el final se pueda mutar para poder "partir" aristas */ 
@@ -71,6 +71,12 @@ public class Arista{
     /* Regresa el primer carácter de la Arista dentro de la cadena s. */
     public char getPrimero(String s){
 	return s.charAt(inicio);
+    }
+
+    /* Establece el Nodo hasta el que llega la arista */
+    public void setHasta(Nodo n){
+	this.hasta = n;
+	n.setPadre(this);
     }
 
 }
