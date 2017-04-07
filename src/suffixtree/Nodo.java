@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Nodo{
 
     private Nodo suffixLink = null; /* Suffix Link */
+    private Arista padre; /* La arista que incide en el nodo */
     private List<Arista> aristas = new ArrayList<>(); /* Aristas que salen del Nodo */        
     private boolean visitado = false; /* Nos dice si el nodo fue visitado en un recorrido */
 
@@ -38,6 +39,16 @@ public class Nodo{
     /* Regresa la lista de aristas saliendo del Nodo */
     public List<Arista> getAristas(){
 	return this.aristas;
+    }
+
+    /* Regresa la arista "padre" del Nodo */
+    public Arista getPadre(){
+	return this.padre;
+    }
+
+    /* Establece a la Arista padre */
+    public void setPadre(Arista a){
+	this.padre = a;
     }
 
     /* Nos dice si el Nodo es hoja */

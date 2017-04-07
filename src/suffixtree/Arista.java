@@ -14,6 +14,7 @@ public class Arista{
     public Arista(Nodo desde, Nodo hasta, int inicio, MutableInt fin){
 	this.desde = desde;
 	this.hasta = hasta;
+	this.hasta.setPadre(this);
 	this.inicio = inicio;
 	this.fin = fin;
 	desde.nuevaArista(this);

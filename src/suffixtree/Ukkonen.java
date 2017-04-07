@@ -91,7 +91,6 @@ public class Ukkonen{
     /* Rutina para cuando un carácter ya fue insertado */
     public void rutinaInsertado(char actual){
 	System.out.printf("insertado %c\n", actual);
-	System.out.printf("Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);
 	if(activeEdge == null){ /* Si no hay arista activa, la creamos */
 	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
 	    activeLength++;
@@ -104,6 +103,7 @@ public class Ukkonen{
 	    }else /* No nos salimos de la arista */
 		activeLength++;
 	}
+	System.out.printf("Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);
     }
     
     /* Construye el árbol de sufijo para la cadena s */
@@ -122,9 +122,10 @@ public class Ukkonen{
 		/* Lo insertamos */
 		while(restantes > 0){
 		    /***** IRRELEVANTE ***/
+		    /*
 		    SuffixTree t = new SuffixTree(s, root);
 		    t.printSufijos();
-		    System.out.printf("Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);
+		    System.out.printf("Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);*/
 		    /***** FIN DE IRRELEVANTE ***/
 		    if(!primeroInsertado){
 			if(insertado(actual)){
@@ -159,12 +160,14 @@ public class Ukkonen{
 		}
 	    }
 	    System.out.println("Paso " + i + ":");
+	    SuffixTree t = new SuffixTree(s, root);
+	    t.printSufijos();
 	}
 	return new SuffixTree(s, root);
     }
 
     public static void main(String[] args){
-	Ukkonen u = new Ukkonen("abcabxabcd");
+	Ukkonen u = new Ukkonen("banana");
 	SuffixTree t = u.ukkonen();
 	//t.printSufijos();
     }
