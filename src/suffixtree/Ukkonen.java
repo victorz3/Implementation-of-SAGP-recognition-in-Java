@@ -97,7 +97,6 @@ public class Ukkonen{
 
     /* Rutina para cuando un carácter ya fue insertado */
     public void rutinaInsertado(char actual){
-	System.out.printf("insertado %c\n", actual);
 	if(activeEdge == null){ /* Si no hay arista activa, la creamos */
 	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
 	    activeLength++;
@@ -110,7 +109,6 @@ public class Ukkonen{
 	    }else /* No nos salimos de la arista */
 		activeLength++;
 	}
-	System.out.printf("ActiveNode: %s, Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", activeNode == root ? "root" : activeNode.getPadre().subcadena(s), restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);
     }
     
     /* Construye el árbol de sufijo para la cadena s */
@@ -128,12 +126,6 @@ public class Ukkonen{
 	    else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
-		    /***** IRRELEVANTE ***/
-		    /*
-		    SuffixTree t = new SuffixTree(s, root);
-		    t.printSufijos();
-		    System.out.printf("Restantes:%d, ActiveEdge: %c, ActiveLength: %d.\n", restantes, activeEdge == null ? '0':activeEdge.getPrimero(s), activeLength);*/
-		    /***** FIN DE IRRELEVANTE ***/
 		    if(!primeroInsertado){
 			if(insertado(actual)){
 			    rutinaInsertado(actual);
@@ -156,19 +148,16 @@ public class Ukkonen{
 			restantes--;
 			if(activeNode == root){
 			    activeLength--;
-			    System.out.printf("Siguiente inicial: %c\n", s.charAt((i.getValue()-restantes)+1));
 			    activeEdge = busca(s.charAt((i.getValue()-restantes)+1));
 			}else{
 			    activeNode = activeNode.getSuffixLink();
 			    if(activeNode == null)
 				activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
+			    activeEdge = busca(activeEdge.getPrimero(s));
 			}
 		    }
 		}
 	    }
-	    System.out.println("Paso " + i + ":");
-	    SuffixTree t = new SuffixTree(s, root);
-	    t.printSufijos();
 	}
 	return new SuffixTree(s, root);
     }
@@ -176,6 +165,6 @@ public class Ukkonen{
     public static void main(String[] args){
 	Ukkonen u = new Ukkonen("banana");
 	SuffixTree t = u.ukkonen();
-	//t.printSufijos();
+	t.printSufijos();
     }
 }
