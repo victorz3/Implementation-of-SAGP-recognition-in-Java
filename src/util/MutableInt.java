@@ -1,5 +1,5 @@
 /* Clase que representa a un entero que se puede mutar */
-package utileria;
+package util;
 
 public class MutableInt{
     private int value; /* Valor del entero */

@@ -1,7 +1,7 @@
 /* Clase que implementa el algoritmo de Ukkonen */
 package suffixtree;
 
-import utileria.MutableInt;
+import util.MutableInt;
 
 public class Ukkonen{
     private final String s; /* La cadena para la cuál construímos el árbol */

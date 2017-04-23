@@ -4,7 +4,7 @@ import suffixtree.Ukkonen;
 import suffixtree.SuffixTree;
 import suffixtree.Arista;
 import suffixtree.Nodo;
-import utileria.MutableInt;
+import util.MutableInt;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

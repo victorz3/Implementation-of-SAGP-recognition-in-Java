@@ -1,6 +1,6 @@
 package suffixtree;
 
-import utileria.MutableInt;
+import util.MutableInt;
 
 /* Representación de aristas */
 public class Arista{
