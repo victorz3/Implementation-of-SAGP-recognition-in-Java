@@ -29,9 +29,20 @@ public class TestUkkonen{
     private static Nodo n4 = new Nodo();
     private static Arista d = new Arista(n1, n4, 2, new MutableInt(5));
     
+    private static String mis = "mississippi";
+    private static Ukkonen u2 = new Ukkonen(mis);
+    private static Nodo m1 = new Nodo();
+    private static Nodo m2 = new Nodo();
+    private static Nodo m3 = new Nodo();
+    private static Nodo m4 = new Nodo();
+    private static Arista a1 = new Arista(m1, m2, 2, new MutableInt(2));
+    private static Arista a2 = new Arista(m2, m3, 3, new MutableInt(6));
+    private static Arista a3 = new Arista(m2, m4, 4, new MutableInt(6));
+    
     /* Establecemos el Nodo activo del algoritmo */
     public TestUkkonen(){
 	u.setActiveNode(n1);
+	u2.setActiveNode(m2);
     }
     
     /* Prueba para startsWith */
@@ -61,6 +72,7 @@ public class TestUkkonen{
 	Assert.assertFalse(u.insertado('c'));
 	u.setActiveEdge(b);
 	u.setActiveLength(1);
+	Assert.assertTrue(u2.insertado('s'));
     }
 
     /* Prueba para insertado con una arista que ya llegó al final */
@@ -109,6 +121,4 @@ public class TestUkkonen{
 	l = t.subcadenas(t.getRaiz());
 	Assert.assertTrue(l.size() == 11); 
     }
-    
-    
 }

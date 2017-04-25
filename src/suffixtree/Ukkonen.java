@@ -102,13 +102,28 @@ public class Ukkonen{
 	    activeLength++;
 	}else{
 	    /* Checamos si ya nos salimos de la arista */
-	    if(activeLength + 1 >= activeEdge.longitud()){
+	    if(activeLength +1 >= activeEdge.longitud()){
 		activeNode = activeEdge.getHasta();
 		activeEdge = null;
 		activeLength = 0;
 	    }else /* No nos salimos de la arista */
 		activeLength++;
 	}
+    }
+
+    /** Rutina para verificar que al cambiar de nodo activo, no nos salgamos de la arista activa. 
+     * @param i - posición del último carácter leído.
+     */
+    public void rutinaSalida(MutableInt i){
+	if(activeEdge != null && activeLength >= activeEdge.longitud()) /* Tengo que checar al 
+									 * cambiar de Nodo nos salimos de la arista */
+	    /* Aquí falta manejar caso cuando se sale */
+	    while(activeLength >= activeEdge.longitud()){
+		activeNode = activeEdge.getHasta();
+		activeLength -= activeEdge.longitud();
+		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
+	    }
+	
     }
     
     /* Construye el árbol de sufijo para la cadena s */
@@ -121,11 +136,14 @@ public class Ukkonen{
 	    boolean primeroInsertado = true; /* Nos dice si el sufijo fue el primero en insertarse en esta iteración */
 	    actual = s.charAt(i.getValue()); /* Leemos el siguiente carácter */
 	    restantes++; /* Un sufijo más por insertar */
-	    if(insertado(actual))
+	    if(insertado(actual)){
+		System.out.printf("Leído: %c, Active Node: %s, Active Edge: %c, Active Length: %d, Restantes: %d\n", actual, activeNode.getPadre() != null ? activeNode.getPadre().subcadena(s) : "root", activeEdge != null ? activeEdge.getPrimero(s) : '0', activeLength, restantes);    
 		rutinaInsertado(actual);
-	    else{ /* El carácter no se ha insertado */
+		
+	    }else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
+		    System.out.printf("Sufijo: %s, Active Node: %s, Active Edge: %c, Active Length: %d, Restantes: %d\n", s.substring((i.getValue()-restantes)+1, i.getValue() +1), activeNode.getPadre() != null ? activeNode.getPadre().subcadena(s) : "root", activeEdge != null ? activeEdge.getPrimero(s) : '0', activeLength, restantes);    
 		    if(!primeroInsertado){
 			if(insertado(actual)){
 			    rutinaInsertado(actual);
@@ -148,12 +166,14 @@ public class Ukkonen{
 			restantes--;
 			if(activeNode == root){
 			    activeLength--;
-			    activeEdge = busca(s.charAt((i.getValue()-restantes)+1));
+			    activeEdge = activeLength == 0 ? null : busca(s.charAt((i.getValue()-restantes)+1));
+			    rutinaSalida(i);
 			}else{
 			    activeNode = activeNode.getSuffixLink();
 			    if(activeNode == null)
 				activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
 			    activeEdge = busca(activeEdge.getPrimero(s));
+			    rutinaSalida(i);
 			}
 		    }
 		}
@@ -163,7 +183,7 @@ public class Ukkonen{
     }
 
     public static void main(String[] args){
-	Ukkonen u = new Ukkonen("banana");
+	Ukkonen u = new Ukkonen("mississippi");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
     }

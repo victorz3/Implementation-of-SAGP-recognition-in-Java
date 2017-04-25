@@ -61,4 +61,13 @@ public class SuffixTree{
 	System.out.println();
 	desvisita();
     }
+
+    /**
+     * Imprime los sufijos del árbol ordenados por longitud ascendente.
+     */
+    public void printSufijosOrden(){
+	List<String> l = subcadenas(this.raiz); /* Lista de sufijos */
+	 
+	
+    }
 }

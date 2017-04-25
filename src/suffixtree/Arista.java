@@ -8,7 +8,8 @@ public class Arista{
     private Nodo desde,hasta; /* Los Nodos que conecta la arista */
     /* Inicio y fin de la subcadena que esta arista representa: */
     private final int inicio;
-    private MutableInt fin; /* Hacemos que el final se pueda mutar para poder "partir" aristas */ 
+    private MutableInt fin; /* Hacemos que el final se pueda mutar para poder "partir" aristas
+			     * ES IMPORTANTE NOTAR QUE EL FIN ES INCLUSIVO */
     
     /* Constructor estándar */
     public Arista(Nodo desde, Nodo hasta, int inicio, MutableInt fin){
@@ -64,7 +65,7 @@ public class Arista{
 	try{
 	    return s.substring(inicio, fin.getValue()+1);
 	}catch(StringIndexOutOfBoundsException e){
-	    return s.substring(inicio, fin.getValue());
+	    return s.substring(inicio, s.length());
 	}
     }
     
