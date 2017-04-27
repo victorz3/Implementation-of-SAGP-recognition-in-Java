@@ -185,6 +185,6 @@ public class Ukkonen{
     public static void main(String[] args){
 	Ukkonen u = new Ukkonen("mississippi");
 	SuffixTree t = u.ukkonen();
-	t.printSufijos();
+	t.printSufijosOrden();
     }
 }

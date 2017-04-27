@@ -2,6 +2,8 @@ package suffixtree;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import util.ComparadorLongitud;
 
 /* Clase para árboles de sufijo. 
  * A lo largo de este archivo, voy a suponer que '#' no está en el alfabeto.
@@ -67,7 +69,10 @@ public class SuffixTree{
      */
     public void printSufijosOrden(){
 	List<String> l = subcadenas(this.raiz); /* Lista de sufijos */
-	 
-	
+	Collections.sort(l, new ComparadorLongitud());
+	for(String s: l)
+	    System.out.print(s + ", ");
+	System.out.println();
+	desvisita();
     }
 }
