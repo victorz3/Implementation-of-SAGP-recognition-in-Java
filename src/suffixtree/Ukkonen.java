@@ -137,13 +137,10 @@ public class Ukkonen{
 	    actual = s.charAt(i.getValue()); /* Leemos el siguiente carácter */
 	    restantes++; /* Un sufijo más por insertar */
 	    if(insertado(actual)){
-		System.out.printf("Leído: %c, Active Node: %s, Active Edge: %c, Active Length: %d, Restantes: %d\n", actual, activeNode.getPadre() != null ? activeNode.getPadre().subcadena(s) : "root", activeEdge != null ? activeEdge.getPrimero(s) : '0', activeLength, restantes);    
 		rutinaInsertado(actual);
-		
 	    }else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
-		    System.out.printf("Sufijo: %s, Active Node: %s, Active Edge: %c, Active Length: %d, Restantes: %d\n", s.substring((i.getValue()-restantes)+1, i.getValue() +1), activeNode.getPadre() != null ? activeNode.getPadre().subcadena(s) : "root", activeEdge != null ? activeEdge.getPrimero(s) : '0', activeLength, restantes);    
 		    if(!primeroInsertado){
 			if(insertado(actual)){
 			    rutinaInsertado(actual);
