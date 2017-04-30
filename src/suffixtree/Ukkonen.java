@@ -140,12 +140,10 @@ public class Ukkonen{
 		rutinaInsertado(actual);
 	    }else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
-		while(restantes > 0){
-		    if(!primeroInsertado){
-			if(insertado(actual)){
-			    rutinaInsertado(actual);
-			    break;
-			}
+		do{
+		    if(insertado(actual)){
+			rutinaInsertado(actual);
+			break;
 		    }
 		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
 			Nodo nuevo = new Nodo(); /* Extremo de la nueva arista */
@@ -173,7 +171,7 @@ public class Ukkonen{
 			    rutinaSalida(i);
 			}
 		    }
-		}
+		}while(restantes > 0);
 	    }
 	}
 	return new SuffixTree(s, root);
