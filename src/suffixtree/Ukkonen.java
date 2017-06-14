@@ -60,8 +60,7 @@ public class Ukkonen{
 	return this.s.charAt(i+a.getInicio());
     }
     
-    /* Nos dice si el carácter ya fue insertado a partir del punto 
-     * activo. 
+    /* Nos dice si el carácter ya fue insertado a partir del punto activo. 
      * También actualiza la arista activa si esta no existe. */
     public boolean insertado(char caracter){
 	if(activeEdge == null){ /* No hay arista activa */
@@ -83,15 +82,15 @@ public class Ukkonen{
 	    /* Dos nuevos nodos en los que se divide la arista: */
 	    Nodo nuevo1 = new Nodo();
 	    Nodo nuevo2 = new Nodo();
-	    Arista nueva1 = new Arista(activeEdge.getHasta(), nuevo1, puntoPartida+1, indice);
-	    Arista nueva2 = new Arista(activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
+	    Arista nueva1 = new Arista(s.charAt(puntoPartida+1), activeEdge.getHasta(), nuevo1, puntoPartida+1, indice);
+	    Arista nueva2 = new Arista(s.charAt(indice.getValue()), activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
 	}else{
 	    Nodo nuevo1 = new Nodo(); /* Nuevo nodo hasta el que llega la arista */
-	    Arista conexion = new Arista(nuevo1, activeEdge.getHasta(), puntoPartida+1, activeEdge.getFin());
+	    Arista conexion = new Arista(s.charAt(puntoPartida+1), nuevo1, activeEdge.getHasta(), puntoPartida+1, activeEdge.getFin());
 	    activeEdge.setHasta(nuevo1);
 	    activeEdge.setFin(new MutableInt(puntoPartida));
 	    Nodo nuevo2 = new Nodo(); /* Nodo recién insertado */
-	    Arista nueva = new Arista(activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
+	    Arista nueva = new Arista(s.charAt(indice.getValue()), activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
 	}
     }
 
@@ -129,8 +128,7 @@ public class Ukkonen{
     /* Construye el árbol de sufijo para la cadena s */
     public SuffixTree ukkonen(){
 	char actual; /* Carácter leído en el paso actual */
-	MutableInt i = new MutableInt(0); /* Contador. 
-		    * Uso Integer para que cada que lo incremente, se incremente en las Aristas */
+	MutableInt i = new MutableInt(0); /* Contador. */		    
 	for(;i.menor(s.length()); i.plusplus()){
 	    Nodo ultimoSplit = null; /* Último nodo sobre el que se hizo split */
 	    boolean primeroInsertado = true; /* Nos dice si el sufijo fue el primero en insertarse en esta iteración */
@@ -147,7 +145,7 @@ public class Ukkonen{
 		    }
 		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
 			Nodo nuevo = new Nodo(); /* Extremo de la nueva arista */
-			Arista nueva = new Arista(activeNode, nuevo, i.getValue(), i);
+			Arista nueva = new Arista(s.charAt(i.getValue()), activeNode, nuevo, i.getValue(), i);
 			restantes--;
 			primeroInsertado = false;
 		    }else{ /* Partimos la arista */
@@ -167,7 +165,7 @@ public class Ukkonen{
 			    activeNode = activeNode.getSuffixLink();
 			    if(activeNode == null)
 				activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
-			    activeEdge = busca(activeEdge.getPrimero(s));
+			    activeEdge = busca(activeEdge.getPrimero());
 			    rutinaSalida(i);
 			}
 		    }

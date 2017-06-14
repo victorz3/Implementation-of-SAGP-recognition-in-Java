@@ -2,6 +2,7 @@ package suffixtree;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /* Clase Nodo para representar nodos de árboles de sufijo */
 public class Nodo{
@@ -31,9 +32,16 @@ public class Nodo{
 	return suffixLink;
     }
 
-    /* Agrega una arista que sale del Nodo */
+    /**
+     * Agrega una arista que sale del Nodo.
+     * La lisa de aristas debe quedar ordenada.
+     * @param a - La arista a insertar.
+     */
     public void nuevaArista(Arista a){
-	this.aristas.add(a);
+	int pos = Collections.binarySearch(aristas, a);
+	if (pos < 0){
+	    aristas.add(-pos-1, a);
+	}
     }
 
     /* Regresa la lista de aristas saliendo del Nodo */

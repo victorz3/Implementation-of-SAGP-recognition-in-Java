@@ -3,8 +3,9 @@ package suffixtree;
 import util.MutableInt;
 
 /* Representación de aristas */
-public class Arista{
+public class Arista implements Comparable<Arista>{
 
+    private char primero; /* Primer carácter en la arista */
     private Nodo desde,hasta; /* Los Nodos que conecta la arista */
     /* Inicio y fin de la subcadena que esta arista representa: */
     private final int inicio;
@@ -12,7 +13,8 @@ public class Arista{
 			     * ES IMPORTANTE NOTAR QUE EL FIN ES INCLUSIVO */
     
     /* Constructor estándar */
-    public Arista(Nodo desde, Nodo hasta, int inicio, MutableInt fin){
+    public Arista(char primero, Nodo desde, Nodo hasta, int inicio, MutableInt fin){
+	this.primero = primero;
 	this.desde = desde;
 	this.hasta = hasta;
 	this.hasta.setPadre(this);
@@ -69,15 +71,47 @@ public class Arista{
 	}
     }
     
-    /* Regresa el primer carácter de la Arista dentro de la cadena s. */
-    public char getPrimero(String s){
-	return s.charAt(inicio);
+    /** Regresa el primer carácter de la arista.
+     * @return El primer carácter de la arista. 
+     */
+    public char getPrimero(){
+	return primero;
+    }
+
+    /**
+     * Compara dos aristas lexicográficamente 
+     * Solo comparamos el primer carácter porque queremos esta comparación
+     * para ordenar aristas salientes de un Nodo en el árbol de sufijos, y 
+     * estas cumplen la propiedad de siempre empezar con caracteres distintos.
+     * @param o - Arista con la cual comparar.
+     * @return resultado de la comparación de acuerdo con las reglas de compareTo
+     */
+    public int compareTo(Arista o){
+	/* Primero casos especiales */
+	if(this.getPrimero() == '#')
+	    if(o.getPrimero() == '#')
+		return 0;
+	    else
+		return -1;
+	if(o.getPrimero() == '#')
+	    return 1;
+	/* No se cumplieron casos especiales */
+	return Character.compare(this.primero, o.primero);
     }
 
     /* Establece el Nodo hasta el que llega la arista */
     public void setHasta(Nodo n){
 	this.hasta = n;
 	n.setPadre(this);
+    }
+
+    /**
+     * Devuelve el primer carácter de la arista como cadena.
+     * @return Cadena con el primer carácter de la Arista.
+     */
+    @Override
+    public String toString(){
+	return Character.toString(this.getPrimero());
     }
 
 }

@@ -21,13 +21,13 @@ public class TestUkkonen{
     private static String banana = "banana";
     private static Ukkonen u = new Ukkonen(banana);
     private static Nodo n1 = new Nodo();
-    private static Arista a = new Arista(n1, n1, 0, new MutableInt(5));
+    private static Arista a = new Arista('b', n1, n1, 0, new MutableInt(5));
     private static Nodo n2 = new Nodo();
-    private static Arista b = new Arista(n1, n2, 1, new MutableInt(5));
+    private static Arista b = new Arista('a', n1, n2, 1, new MutableInt(5));
     private static Nodo n3 = new Nodo();
-    private static Arista c = new Arista(n1, n3, 3, new MutableInt(5));
+    private static Arista c = new Arista('a', n1, n3, 3, new MutableInt(5));
     private static Nodo n4 = new Nodo();
-    private static Arista d = new Arista(n1, n4, 2, new MutableInt(5));
+    private static Arista d = new Arista('n', n1, n4, 2, new MutableInt(5));
     
     private static String mis = "mississippi";
     private static Ukkonen u2 = new Ukkonen(mis);
@@ -35,9 +35,9 @@ public class TestUkkonen{
     private static Nodo m2 = new Nodo();
     private static Nodo m3 = new Nodo();
     private static Nodo m4 = new Nodo();
-    private static Arista a1 = new Arista(m1, m2, 2, new MutableInt(2));
-    private static Arista a2 = new Arista(m2, m3, 3, new MutableInt(6));
-    private static Arista a3 = new Arista(m2, m4, 4, new MutableInt(6));
+    private static Arista a1 = new Arista('s', m1, m2, 2, new MutableInt(2));
+    private static Arista a2 = new Arista('s', m2, m3, 3, new MutableInt(6));
+    private static Arista a3 = new Arista('i', m2, m4, 4, new MutableInt(6));
     
     /* Establecemos el Nodo activo del algoritmo */
     public TestUkkonen(){
@@ -77,8 +77,8 @@ public class TestUkkonen{
 
     /* Prueba para insertado con una arista que ya llegó al final */
     @Test public void testInsertadoFinal(){
-	Arista x = new Arista(n1, n2, 0, new MutableInt(2));
-	Arista y = new Arista(n2, n3, 3, new MutableInt(3));
+	Arista x = new Arista('b', n1, n2, 0, new MutableInt(2));
+	Arista y = new Arista('a', n2, n3, 3, new MutableInt(3));
 	u.setActiveEdge(x);
 	u.setActiveLength(3);
 	Assert.assertTrue(u.insertado('a'));
@@ -95,9 +95,9 @@ public class TestUkkonen{
 	Ukkonen u2 = new Ukkonen("abcabx");
 	Nodo raiz = new Nodo();
 	u2.setActiveNode(raiz);
-	Arista a1 = new Arista(raiz, new Nodo(), 0, new MutableInt(5)); //abcabx
-	Arista a2 = new Arista(raiz, new Nodo(), 1, new MutableInt(5)); //bcabx
-	Arista a3 = new Arista(raiz, new Nodo(), 2, new MutableInt(5)); //cabx
+	Arista a1 = new Arista('a', raiz, new Nodo(), 0, new MutableInt(5)); //abcabx
+	Arista a2 = new Arista('b', raiz, new Nodo(), 1, new MutableInt(5)); //bcabx
+	Arista a3 = new Arista('c', raiz, new Nodo(), 2, new MutableInt(5)); //cabx
 	u2.setActiveEdge(a1);
 	u2.setActiveLength(2);
 	u2.split(new MutableInt(5));
