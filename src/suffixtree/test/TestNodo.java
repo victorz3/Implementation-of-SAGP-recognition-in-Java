@@ -33,12 +33,10 @@ public class TestNodo{
 	Nodo n = new Nodo();
 	List<Arista> listaTotal = new ArrayList<>();
 	for(int i = 0; i < 10; ++i){
-	    Arista a1 = new Arista((char)(rand.nextInt(26) + 'a'), n, n, 0, new MutableInt(0));
+	    Arista a1 = new Arista((char)(i + 'a'), n, n, 0, new MutableInt(0));
 	    listaTotal.add(a1);
 	}
 	Collections.sort(listaTotal);
-	System.out.println(listaTotal);
-	System.out.println(n.getAristas());
 	Assert.assertTrue(listaTotal.equals(n.getAristas()));
     }
 }
