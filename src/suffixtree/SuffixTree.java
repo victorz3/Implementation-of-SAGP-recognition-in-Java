@@ -41,6 +41,28 @@ public class SuffixTree{
 	}
 	return regreso;
     }
+
+    /**
+     * Saca el arreglo de sufijos del árbol.
+     * Cada sufijo se representa con el número del carácter en el que empieza.
+     * @return El arreglo de sufijos correspondiente a la cadena del árbol. 
+     */
+    public List<Integer> suffixArray(Nodo n){
+	ArrayList<Integer> regreso = new ArrayList<>(); /* Lista a regresar */
+	n.visita(true);
+	if(n.esHoja()){
+	    regreso.add(cadena.length()+1);
+	    return regreso;
+	}
+	for(Arista vecino: n.getAristas()){
+	    Nodo sig = vecino.getHasta(); /* Siguiente Nodo a visitar */
+	    if(sig.visitado())
+		continue;
+	    for(Integer sub: this.suffixArray(sig))
+		regreso.add(sub - vecino.subcadena(this.cadena).length());
+	}
+	return regreso;
+    }
     
    
     /* Rutina para marcar a todos los nodos como no visitados */
@@ -55,7 +77,9 @@ public class SuffixTree{
 	    desvisitaNodo(vecino.getHasta());
     }
     
-    /* Imprime los sufijos del árbol */
+    /**
+     * Imprime los sufijos del árbol en orden lexicográfico.
+     */
     public void printSufijos(){
 	List<String> l = subcadenas(this.raiz);
 	for(String s: l)
@@ -63,16 +87,5 @@ public class SuffixTree{
 	System.out.println();
 	desvisita();
     }
-
-    /**
-     * Imprime los sufijos del árbol ordenados por longitud ascendente.
-     */
-    public void printSufijosOrden(){
-	List<String> l = subcadenas(this.raiz); /* Lista de sufijos */
-	Collections.sort(l, new ComparadorLongitud());
-	for(String s: l)
-	    System.out.print(s + ", ");
-	System.out.println();
-	desvisita();
-    }
+    
 }

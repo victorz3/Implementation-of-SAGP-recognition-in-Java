@@ -43,7 +43,7 @@ public class Ukkonen{
 
     /* Nos dice si la arista empieza con el carácter dado. */
     public boolean startsWith(char caracter, Arista a){
-	return this.s.charAt(a.getInicio()) == caracter;
+	return a.getPrimero() == caracter;
     }
 
     /* Busca la arista que empieza con el carácter c a partir del 
@@ -178,6 +178,7 @@ public class Ukkonen{
     public static void main(String[] args){
 	Ukkonen u = new Ukkonen("mississippi");
 	SuffixTree t = u.ukkonen();
-	t.printSufijosOrden();
+	t.printSufijos();
+	System.out.println(t.suffixArray(t.getRaiz()));
     }
 }

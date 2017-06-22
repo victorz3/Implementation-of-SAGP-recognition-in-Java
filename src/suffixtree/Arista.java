@@ -32,6 +32,14 @@ public class Arista implements Comparable<Arista>{
 	return desde.equals(otra.getDesde()) && hasta.equals(otra.getHasta()) && inicio == otra.getInicio() && fin.equals(otra.getFin());
     }
 
+    /**
+     * Regresa el primer carácter de la Arista.
+     * @return El primer carácter de la Arista.
+     */
+    public char getPrimero(){
+	return this.primero;
+    }
+    
     /* Regresa el Nodo inicial de la Arista */
     public Nodo getDesde(){
 	return this.desde;
@@ -69,15 +77,8 @@ public class Arista implements Comparable<Arista>{
 	}catch(StringIndexOutOfBoundsException e){
 	    return s.substring(inicio, s.length());
 	}
-    }
-    
-    /** Regresa el primer carácter de la arista.
-     * @return El primer carácter de la arista. 
-     */
-    public char getPrimero(){
-	return primero;
-    }
-
+    } 
+   
     /**
      * Compara dos aristas lexicográficamente 
      * Solo comparamos el primer carácter porque queremos esta comparación
