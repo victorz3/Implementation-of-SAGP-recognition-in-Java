@@ -90,7 +90,7 @@ public class Ukkonen{
 	    activeEdge.setHasta(nuevo1);
 	    activeEdge.setFin(new MutableInt(puntoPartida));
 	    Nodo nuevo2 = new Nodo(); /* Nodo recién insertado */
-	    Arista nueva = new Arista(s.charAt(indice.getValue()), activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
+	    Arista nueva = new Arista(s.charAt(indice.getValue()), nuevo1, nuevo2, indice.getValue(), indice);
 	}
     }
 
@@ -103,8 +103,8 @@ public class Ukkonen{
 	    /* Checamos si ya nos salimos de la arista */
 	    if(activeLength +1 >= activeEdge.longitud()){
 		activeNode = activeEdge.getHasta();
-		activeEdge = null;
-		activeLength = 0;
+		activeLength = activeLength +1 - activeEdge.longitud();
+		activeEdge = this.busca(actual);
 	    }else /* No nos salimos de la arista */
 		activeLength++;
 	}
@@ -122,7 +122,6 @@ public class Ukkonen{
 		activeLength -= activeEdge.longitud();
 		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
 	    }
-	
     }
     
     /* Construye el árbol de sufijo para la cadena s */

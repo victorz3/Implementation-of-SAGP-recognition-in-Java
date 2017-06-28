@@ -108,6 +108,24 @@ public class TestUkkonen{
 	Arista a5 = vecinos.get(1);
 	Assert.assertTrue(a4.longitud() == 4);
 	Assert.assertTrue(a5.longitud() == 1);
+	u2 = new Ukkonen("abcabbca");
+	raiz = new Nodo();
+	u2.setActiveNode(raiz);
+	a1 = new Arista('a', raiz, new Nodo(), 0, new MutableInt(1)); //ab
+	a2 = new Arista('c', a1.getHasta(), new Nodo(), 2, new MutableInt(8)); //cabbca#
+	a3 = new Arista('b', a1.getHasta(), new Nodo(), 5, new MutableInt(8)); //bca#
+	u2.setActiveEdge(a1);
+	u2.setActiveLength(1);
+	u2.split(new MutableInt(8));
+	Assert.assertTrue(a1.getFin().getValue() == 0);
+	vecinos = a1.getHasta().getAristas();
+	Arista a6 = vecinos.get(0);
+	a5 = vecinos.get(1);
+	Assert.assertTrue(a6.longitud() == 1);
+	Assert.assertTrue(a5.longitud() == 1);
+	
+	
+	
     }
 
     /* Prueba unitaria para ukkonen */
