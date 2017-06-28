@@ -73,11 +73,21 @@ public class Arista implements Comparable<Arista>{
     /* Regresa la subcadena representada por la Arista */
     public String subcadena(String s){
 	try{
+	    if(s.charAt(s.length() -1 ) != '#')
+		s += '#';
 	    return s.substring(inicio, fin.getValue()+1);
 	}catch(StringIndexOutOfBoundsException e){
 	    return s.substring(inicio, s.length());
 	}
-    } 
+    }
+
+    /**
+     * Imprime la información de una Arista */
+    public void printInfo(){
+	System.out.printf("Primer carácter: %c\n", primero);
+	System.out.printf("Inicio: %d\n", inicio);
+	System.out.println("Fin: " + fin);
+    }
    
     /**
      * Compara dos aristas lexicográficamente 

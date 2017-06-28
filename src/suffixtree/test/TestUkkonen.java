@@ -123,9 +123,6 @@ public class TestUkkonen{
 	a5 = vecinos.get(1);
 	Assert.assertTrue(a6.longitud() == 1);
 	Assert.assertTrue(a5.longitud() == 1);
-	
-	
-	
     }
 
     /* Prueba unitaria para ukkonen */
