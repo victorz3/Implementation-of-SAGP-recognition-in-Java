@@ -52,15 +52,12 @@ public class SuffixTree{
     /* Regresa la lista de subcadenas a partir del nodo */
     public List<String> subcadenas(Nodo n){
 	ArrayList<String> regreso = new ArrayList<>(); /* Lista a regresar */
-	n.visita(true);
 	if(n.esHoja()){
 	    regreso.add("");
 	    return regreso;
 	}
 	for(Arista vecino: n.getAristas()){
 	    Nodo sig = vecino.getHasta(); /* Siguiente Nodo a visitar */
-	    if(sig.visitado())
-		continue;
 	    for(String sub: this.subcadenas(sig))
 		regreso.add(vecino.subcadena(this.cadena) + sub);
 	}
@@ -74,15 +71,12 @@ public class SuffixTree{
      */ 
     private List<Integer> suffixArray(Nodo n){
 	ArrayList<Integer> regreso = new ArrayList<>(); /* Lista a regresar */
-	n.visita(true);
 	if(n.esHoja()){
 	    regreso.add(cadena.length()+1);
 	    return regreso;
 	}
 	for(Arista vecino: n.getAristas()){
 	    Nodo sig = vecino.getHasta(); /* Siguiente Nodo a visitar */
-	    if(sig.visitado())
-		continue;
 	    for(Integer sub: this.suffixArray(sig))
 		regreso.add(sub - vecino.subcadena(this.cadena).length());
 	}
