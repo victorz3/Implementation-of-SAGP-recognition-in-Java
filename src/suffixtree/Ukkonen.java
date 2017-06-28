@@ -176,9 +176,9 @@ public class Ukkonen{
     }
 
     public static void main(String[] args){
-	Ukkonen u = new Ukkonen("mississippi");
+	Ukkonen u = new Ukkonen("banana");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
-	System.out.println(t.suffixArray(t.getRaiz()));
+	System.out.println(t.getSuffixArray());
     }
 }
