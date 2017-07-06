@@ -1,6 +1,7 @@
 /* Clase que implementa el algoritmo de Ukkonen */
 package suffixtree;
 
+import java.util.Arrays;
 import util.MutableInt;
 
 public class Ukkonen{
@@ -179,5 +180,6 @@ public class Ukkonen{
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
 	System.out.println(t.getSuffixArray());
+	System.out.println(Arrays.toString(t.getReversedSuffixArray()));
     }
 }

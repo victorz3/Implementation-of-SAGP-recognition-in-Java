@@ -14,7 +14,7 @@ public class SuffixTree{
     private final Nodo raiz; /* La raíz del árbol */
     private List<Integer> suffixArray; /* El arreglo de sufijos de la cadena del árbol */
     private int[] reversed; /* El arreglo de sufijos invertido */
-
+    private int[] lcp; /* Arreglo LCP */    
     
     /* Constructor estándar */
     public SuffixTree(String cadena, Nodo raiz){
@@ -48,6 +48,16 @@ public class SuffixTree{
 	    reversed = reversedSuffixArray();
 	return reversed; 
     }
+
+    /**
+     * Regresa el arreglo LCP de la cadena.
+     * @return El arreglo LCP de la cadena del árbol.
+     */
+    public int[] getLCP(){
+	if(lcp == null)
+	    lcp = lcp();
+	return lcp;
+    }
     
     /* Regresa la lista de subcadenas a partir del nodo */
     public List<String> subcadenas(Nodo n){
@@ -64,11 +74,9 @@ public class SuffixTree{
 	return regreso;
     }
 
-    /**
-     * Saca el arreglo de sufijos del árbol.
-     * Cada sufijo se representa con el número del carácter en el que empieza.
-     * @return El arreglo de sufijos correspondiente a la cadena del árbol. 
-     */ 
+    
+    /* Saca el arreglo de sufijos del árbol.
+     * Cada sufijo se representa con el número del carácter en el que empieza. */ 
     private List<Integer> suffixArray(Nodo n){
 	ArrayList<Integer> regreso = new ArrayList<>(); /* Lista a regresar */
 	if(n.esHoja()){
@@ -83,10 +91,7 @@ public class SuffixTree{
 	return regreso;
     }
 
-    /**
-     * Saca el arreglo de sufijos invertido de la cadena del árbol 
-     * @return El arreglo de sufijos invertido de la cadena.
-     */
+    /* Saca el arreglo de sufijos invertido de la cadena del árbol */
     private int[] reversedSuffixArray(){
 	List<Integer> sA = this.getSuffixArray(); /* Obtenemos el arreglo de 
 							* sufijos utilizando el singleton */
@@ -94,20 +99,16 @@ public class SuffixTree{
 	for(int i = 0; i < sA.size(); ++i)
 	    rev[sA.get(i)-1] = i+1;
 	return rev;
-	
-    }
-    
-   
-    /* Rutina para marcar a todos los nodos como no visitados */
-    private void desvisita(){
-	desvisitaNodo(this.raiz);
     }
 
-    /* Marca a un nodo como no visitado y recursa sobre sus vecinos */
-    private void desvisitaNodo(Nodo n){
-	n.visita(false);
-	for(Arista vecino: n.getAristas())
-	    desvisitaNodo(vecino.getHasta());
+    
+    /* Saca el arreglo LCP */
+    private int[] lcp(){
+	List<Integer> sa = this.getSuffixArray(); /* Arreglo de sufijos. */
+	int[] rev = this.getReversedSuffixArray(); /* Arreglo de sufijos invertido */
+	int longest = 0; /* El lcp de los sufijos que están siendo analizados */
+	int[] arreglolcp = new int[sa.size()]; /* El arreglo que vamos a regresa. */
+	return arreglolcp;
     }
     
     /**
@@ -118,7 +119,6 @@ public class SuffixTree{
 	for(String s: l)
 	    System.out.print(s + ", ");
 	System.out.println();
-	desvisita();
     }
     
 }

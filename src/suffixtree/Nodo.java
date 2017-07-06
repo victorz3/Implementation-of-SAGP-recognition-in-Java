@@ -10,17 +10,6 @@ public class Nodo{
     private Nodo suffixLink = null; /* Suffix Link */
     private Arista padre; /* La arista que incide en el nodo */
     private List<Arista> aristas = new ArrayList<>(); /* Aristas que salen del Nodo */        
-    private boolean visitado = false; /* Nos dice si el nodo fue visitado en un recorrido */
-
-    /* Nos dice si el nodo fue visitado durante un recorrido */
-    public boolean visitado(){
-	return this.visitado;
-    }
-
-    /* Marca al nodo como visitado o no visitado */
-    public void visita(boolean b){
-	this.visitado = b;
-    }
     
     /* Pone el 'enlace de sufijo' */
     public void setSuffixLink(Nodo link){
