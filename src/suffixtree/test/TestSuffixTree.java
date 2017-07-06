@@ -42,7 +42,21 @@ public class TestSuffixTree{
 	int[] myrev = {5, 4, 7, 3, 6, 2, 1};
 	Assert.assertTrue(Arrays.equals(rev, myrev));
     }
-    
 
-    
+    /**
+     * Prueba unitaria para {@link SuffixTree#getLCP}.
+     */
+    @Test public void testGetLCP(){
+	Ukkonen u = new Ukkonen("abcabbca");
+	SuffixTree t = u.ukkonen();
+	int[] lcp = t.getLCP();
+	int[] myLCP = {-1, 0, 1, 2, 0, 1, 3, 0, 2};
+	Assert.assertTrue(Arrays.equals(lcp, myLCP));
+
+	u = new Ukkonen("banana");
+	t = u.ukkonen();
+	lcp = t.getLCP();
+	int[] myLCP2 = {-1, 0, 1, 3, 0, 0, 2};
+	Assert.assertTrue(Arrays.equals(lcp, myLCP2));
+    }
 }

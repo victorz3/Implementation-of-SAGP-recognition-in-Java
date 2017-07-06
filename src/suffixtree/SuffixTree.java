@@ -108,6 +108,19 @@ public class SuffixTree{
 	int[] rev = this.getReversedSuffixArray(); /* Arreglo de sufijos invertido */
 	int longest = 0; /* El lcp de los sufijos que están siendo analizados */
 	int[] arreglolcp = new int[sa.size()]; /* El arreglo que vamos a regresa. */
+	arreglolcp[0] = -1; /* La primera posición vale -1 pues el sufijo no 
+			       tiene predecesor lexicográfico */
+	for(int i = 0; i < cadena.length()-1; i++){
+	    int pos = rev[i] - 1; /* Posición en SA del sufijo que empieza en el 
+				   * i-ésimo carácter. */ 
+	    int pred = sa.get(pos - 1); /* Predecesor lexicográfico del sufijo. */
+	    while(i+longest < cadena.length() && (pred - 1)+longest < cadena.length() &&
+		  cadena.charAt(i+longest) == cadena.charAt((pred-1)+longest))
+		longest++; 
+	    arreglolcp[pos] = longest;
+	    if(longest > 0)
+		longest--;
+	} 
 	return arreglolcp;
     }
     

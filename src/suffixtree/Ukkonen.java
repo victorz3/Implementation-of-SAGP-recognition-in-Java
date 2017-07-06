@@ -176,10 +176,11 @@ public class Ukkonen{
     }
 
     public static void main(String[] args){
-	Ukkonen u = new Ukkonen("abcabbca");
+	Ukkonen u = new Ukkonen("banana");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
 	System.out.println(t.getSuffixArray());
 	System.out.println(Arrays.toString(t.getReversedSuffixArray()));
+	System.out.println(Arrays.toString(t.getLCP()));	
     }
 }
