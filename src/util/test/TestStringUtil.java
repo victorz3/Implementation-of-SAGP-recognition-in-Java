@@ -1,6 +1,7 @@
 package util.test;
 
-import util.StringUtil; 
+import util.StringUtil;
+import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,6 +20,26 @@ public class TestStringUtil{
      * Prueba unitaria para {@link StringUtil#rellena}.
      */
     @Test public void testRellena(){
+	String nueva = StringUtil.rellena("abababa");
+	Assert.assertTrue(nueva.equals("$@a@b@a@b@a@b@a@¿"));
+    }
+
+    /**
+     * Prueba unitaria para {@link StringUtil#pals}.
+     */
+    @Test public void testPals(){
+	String nueva = "abababa";
+	int[] pals = StringUtil.pals(nueva);
+	int[] resultado = {0, 0, 0, 0, 0, 0};
+	Assert.assertTrue(Arrays.equals(pals, resultado));
+	nueva = "abaaba";
+	pals = StringUtil.pals(nueva);
+	int[] resultado2={0, 0, 3, 0, 0};
+	Assert.assertTrue(Arrays.equals(pals, resultado2));
+	nueva = "ccabaabc";
+	pals = StringUtil.pals(nueva);
+	int[] resultado3 = {1, 0, 0, 0, 2, 0, 0};
+	Assert.assertTrue(Arrays.equals(pals, resultado3));
     }
     
 }
