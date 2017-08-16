@@ -109,7 +109,7 @@ public class SuffixTree{
 	int longest = 0; /* El lcp de los sufijos que están siendo analizados */
 	int[] arreglolcp = new int[sa.size()]; /* El arreglo que vamos a regresa. */
 	arreglolcp[0] = -1; /* La primera posición vale -1 pues el sufijo no 
-			       tiene predecesor lexicográfico */
+			     * tiene predecesor lexicográfico */
 	for(int i = 0; i < cadena.length()-1; i++){
 	    int pos = rev[i] - 1; /* Posición en SA del sufijo que empieza en el 
 				   * i-ésimo carácter. */ 
