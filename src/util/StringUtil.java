@@ -17,7 +17,7 @@ public class StringUtil{
 	String rellena = rellena(s); /* Rellenamos los espacios de la cadena con caracteres 
 					especiales para poder ejecutar el algoritmo de Manacher. */	
 
-	/* Ya con la cadena rellenada, podemos ejecutar el algoritmo. */
+	/* Ya con la cadena rellena, podemos ejecutar el algoritmo. */
 	int[] bigPals = new int[rellena.length()]; /* Creamos un arreglo para longitudes de palíndromos en s.
 						      Al final vamos a tomar solo las longitudes de los palíndromos pares.*/
 	int centro = 0, der = 0; /* Posición del centro y derecha del palíndromo sobre el que estamos parados */
@@ -45,7 +45,7 @@ public class StringUtil{
     /**
      * Rellena una cadena con caracteres especiales para ser utilizada en el algoritmo de Manacher. 
      * @param s - La cadena a rellenar
-     * @return La cadena rellenada con caracteres especiales
+     * @return La cadena rellena con caracteres especiales
      */
     public static String rellena(String s) throws IllegalArgumentException{
 	if(s.contains("$") || s.contains("@") || s.contains("¿"))
