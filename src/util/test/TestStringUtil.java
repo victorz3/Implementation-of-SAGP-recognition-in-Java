@@ -21,7 +21,7 @@ public class TestStringUtil{
      */
     @Test public void testRellena(){
 	String nueva = StringUtil.rellena("abababa");
-	Assert.assertTrue(nueva.equals("$@a@b@a@b@a@b@a@¿"));
+	Assert.assertTrue(nueva.equals("$abababa¿"));
     }
 
     /**
@@ -30,16 +30,20 @@ public class TestStringUtil{
     @Test public void testPals(){
 	String nueva = "abababa";
 	int[] pals = StringUtil.pals(nueva);
-	int[] resultado = {0, 0, 0, 0, 0, 0};
+	int[] resultado = {0, 0, 0, 0, 0, 0, 0};
 	Assert.assertTrue(Arrays.equals(pals, resultado));
 	nueva = "abaaba";
 	pals = StringUtil.pals(nueva);
-	int[] resultado2={0, 0, 3, 0, 0};
+	int[] resultado2={0, 0, 0, 3, 0, 0};
 	Assert.assertTrue(Arrays.equals(pals, resultado2));
 	nueva = "ccabaabc";
 	pals = StringUtil.pals(nueva);
-	int[] resultado3 = {1, 0, 0, 0, 2, 0, 0};
+	int[] resultado3 = {0, 1, 0, 0, 0, 2, 0, 0};
 	Assert.assertTrue(Arrays.equals(pals, resultado3));
+	nueva = "forgeeksskeegfor";
+	pals = StringUtil.pals(nueva);
+	int[] resultado4 = {0, 0, 0, 0, 0, 1, 0, 0, 5, 0, 0, 1, 0, 0, 0, 0};
+	Assert.assertTrue(Arrays.equals(pals, resultado4));
     }
     
 }
