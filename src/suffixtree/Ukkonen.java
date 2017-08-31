@@ -69,9 +69,10 @@ public class Ukkonen{
 		if(startsWith(caracter, vecino))
 		    return true;
 	    }
-	}else
+	}else{
 	    if(get(activeLength, activeEdge) == caracter)
 		return true;
+	}
 	return false;
     }
 
@@ -97,38 +98,42 @@ public class Ukkonen{
 
     /* Rutina para cuando un carácter ya fue insertado */
     public void rutinaInsertado(char actual){
-	if(activeEdge == null){ /* Si no hay arista activa, la creamos */
+	if(activeEdge == null) /* Si no hay arista activa, la creamos */
 	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
+	//     activeLength++;
+	// }else{
+	/* Checamos si ya nos salimos de la arista */
+	if(activeLength +1 >= activeEdge.longitud()){
+	    activeNode = activeEdge.getHasta();
+	    activeLength = activeLength +1 - activeEdge.longitud();
+	    //activeEdge = this.busca(actual);
+	}else /* No nos salimos de la arista */
 	    activeLength++;
-	}else{
-	    /* Checamos si ya nos salimos de la arista */
-	    if(activeLength +1 >= activeEdge.longitud()){
-		activeNode = activeEdge.getHasta();
-		activeLength = activeLength +1 - activeEdge.longitud();
-		activeEdge = this.busca(actual);
-	    }else /* No nos salimos de la arista */
-		activeLength++;
-	}
     }
 
     /** Rutina para verificar que al cambiar de nodo activo, no nos salgamos de la arista activa. 
      * @param i - posición del último carácter leído.
      */
     public void rutinaSalida(MutableInt i){
-	if(activeEdge != null && activeLength >= activeEdge.longitud()) /* Tengo que checar al 
-									 * cambiar de Nodo nos salimos de la arista */
+	if(activeEdge != null && activeLength >= activeEdge.longitud()){ /* Tengo que checar al 
+									  * cambiar de Nodo nos salimos de la arista */
 	    /* Aquí falta manejar caso cuando se sale */
-	    while(activeLength >= activeEdge.longitud()){
+	    while(activeEdge != null && activeLength >= activeEdge.longitud()){
 		activeNode = activeEdge.getHasta();
 		activeLength -= activeEdge.longitud();
-		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
+		if(s.length() > ((i.getValue()-restantes)+1)+activeEdge.longitud())
+		    activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
+		else
+		    activeEdge = null;
 	    }
+	}
     }
     
     /* Construye el árbol de sufijo para la cadena s */
     public SuffixTree ukkonen(){
 	char actual; /* Carácter leído en el paso actual */
 	MutableInt i = new MutableInt(0); /* Contador. */		    
+	restantes = 0;
 	for(;i.menor(s.length()); i.plusplus()){
 	    Nodo ultimoSplit = null; /* Último nodo sobre el que se hizo split */
 	    boolean primeroInsertado = true; /* Nos dice si el sufijo fue el primero en insertarse en esta iteración */
@@ -136,11 +141,13 @@ public class Ukkonen{
 	    restantes++; /* Un sufijo más por insertar */
 	    if(insertado(actual)){
 		rutinaInsertado(actual);
+		//rutinaSalida(i);
 	    }else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
-		do{
+		while(restantes > 0){
 		    if(insertado(actual)){
 			rutinaInsertado(actual);
+			//rutinaSalida(i);
 			break;
 		    }
 		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
@@ -169,18 +176,19 @@ public class Ukkonen{
 			    rutinaSalida(i);
 			}
 		    }
-		}while(restantes > 0);
+		}
 	    }
 	}
 	return new SuffixTree(s, root);
     }
-
+    
     public static void main(String[] args){
-	Ukkonen u = new Ukkonen("banana");
+	Ukkonen u = new Ukkonen("mississippi");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
-	System.out.println(t.getSuffixArray());
-	System.out.println(Arrays.toString(t.getReversedSuffixArray()));
-	System.out.println(Arrays.toString(t.getLCP()));	
+	// Ukkonen u = new Ukkonen("aabca$acbaa");
+	// System.out.println("Suffix array: " + t.getSuffixArray());
+	// System.out.println("Reversed suffix array: " + Arrays.toString(t.getReversedSuffixArray()));
+	// System.out.println("LCP array: " + Arrays.toString(t.getLCP()));	
     }
 }

@@ -138,6 +138,7 @@ public class TestUkkonen{
 	uk = new Ukkonen("mississippi");
 	t = uk.ukkonen();
 	l = t.subcadenas(t.getRaiz());
+	System.out.println(l);
 	Assert.assertTrue(l.size() == 12);
     }
 }
