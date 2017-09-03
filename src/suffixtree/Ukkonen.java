@@ -3,6 +3,7 @@ package suffixtree;
 
 import java.util.Arrays;
 import util.MutableInt;
+import util.StringUtil;
 
 public class Ukkonen{
     private final String s; /* La cadena para la cuál construímos el árbol */
@@ -106,7 +107,7 @@ public class Ukkonen{
 	if(activeLength +1 >= activeEdge.longitud()){
 	    activeNode = activeEdge.getHasta();
 	    activeLength = activeLength +1 - activeEdge.longitud();
-	    //activeEdge = this.busca(actual);
+	    activeEdge = null;
 	}else /* No nos salimos de la arista */
 	    activeLength++;
     }
@@ -128,7 +129,22 @@ public class Ukkonen{
 	    }
 	}
     }
-    
+
+    /**
+     * Regla 3 del algoritmo de Ukkonen: Si insertamos con Nodo activo != null, entonces
+     * 1) nodo activo se vuelve el enlace de sufijo del nodo activo.
+     * 2) active_edge y active_length se quedan iguales
+     * @param i - el índice de la iteración del algoritmo
+     */
+    public void regla3(MutableInt i){
+	activeNode = activeNode.getSuffixLink();
+	if(activeNode == null)
+	    activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
+	if(activeEdge != null)
+	    activeEdge = busca(activeEdge.getPrimero());
+	rutinaSalida(i);
+    }
+  
     /* Construye el árbol de sufijo para la cadena s */
     public SuffixTree ukkonen(){
 	char actual; /* Carácter leído en el paso actual */
@@ -155,6 +171,8 @@ public class Ukkonen{
 			Arista nueva = new Arista(s.charAt(i.getValue()), activeNode, nuevo, i.getValue(), i);
 			restantes--;
 			primeroInsertado = false;
+			if(activeNode != root)
+			    regla3(i);
 		    }else{ /* Partimos la arista */
 			split(i);
 			if(!primeroInsertado)
@@ -168,13 +186,8 @@ public class Ukkonen{
 			    activeLength--;
 			    activeEdge = activeLength == 0 ? null : busca(s.charAt((i.getValue()-restantes)+1));
 			    rutinaSalida(i);
-			}else{
-			    activeNode = activeNode.getSuffixLink();
-			    if(activeNode == null)
-				activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
-			    activeEdge = busca(activeEdge.getPrimero());
-			    rutinaSalida(i);
-			}
+			}else
+			    regla3(i);
 		    }
 		}
 	    }
@@ -183,12 +196,14 @@ public class Ukkonen{
     }
     
     public static void main(String[] args){
-	Ukkonen u = new Ukkonen("mississippi");
+	//Ukkonen u = new Ukkonen("ccabaabc=cbaabacc");	
+	//Ukkonen u = new Ukkonen("mississippi");
+	Ukkonen u = new Ukkonen("aaa");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
-	// Ukkonen u = new Ukkonen("aabca$acbaa");
-	// System.out.println("Suffix array: " + t.getSuffixArray());
-	// System.out.println("Reversed suffix array: " + Arrays.toString(t.getReversedSuffixArray()));
-	// System.out.println("LCP array: " + Arrays.toString(t.getLCP()));	
+	System.out.println("Suffix array: " + t.getSuffixArray());
+	System.out.println("Reversed suffix array: " + Arrays.toString(t.getReversedSuffixArray()));
+	System.out.println("LCP array: " + Arrays.toString(t.getLCP()));	
+	System.out.println("Pals: " + Arrays.toString(StringUtil.pals(u.s)));
     }
 }
