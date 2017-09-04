@@ -101,9 +101,7 @@ public class Ukkonen{
     public void rutinaInsertado(char actual){
 	if(activeEdge == null) /* Si no hay arista activa, la creamos */
 	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
-	//     activeLength++;
-	// }else{
-	/* Checamos si ya nos salimos de la arista */
+	/* Verificamos si ya nos salimos de la arista */
 	if(activeLength +1 >= activeEdge.longitud()){
 	    activeNode = activeEdge.getHasta();
 	    activeLength = activeLength +1 - activeEdge.longitud();
@@ -116,9 +114,7 @@ public class Ukkonen{
      * @param i - posición del último carácter leído.
      */
     public void rutinaSalida(MutableInt i){
-	if(activeEdge != null && activeLength >= activeEdge.longitud()){ /* Tengo que checar al 
-									  * cambiar de Nodo nos salimos de la arista */
-	    /* Aquí falta manejar caso cuando se sale */
+	if(activeEdge != null && activeLength >= activeEdge.longitud()){
 	    while(activeEdge != null && activeLength >= activeEdge.longitud()){
 		activeNode = activeEdge.getHasta();
 		activeLength -= activeEdge.longitud();
