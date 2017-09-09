@@ -24,8 +24,12 @@ public class TestCRM{
     @Test public void testGetMin(){
 	Assert.assertTrue(c.getMin(3, 2) == 4);
 	Assert.assertTrue(c.getMin(4, 3) == 4);
-	
     }
-     
-    
+
+    /**
+     * Prueba unitaria para {@link CRM#consulta}
+     */
+    @Test public void testConsulta(){
+	Assert.assertTrue(c.consulta(5, 9) == 6);
+    }
 }

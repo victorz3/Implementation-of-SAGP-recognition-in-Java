@@ -17,8 +17,7 @@ public class CRM{
      */
     public CRM(int[] arreglo){
 	this.arreglo = arreglo;
-	System.out.println(Math.log(arreglo.length)/Math.log(2));
-	this.query = new Integer[arreglo.length][(int)(Math.log(arreglo.length))+1];
+	this.query = new Integer[arreglo.length][(int)(Math.log(arreglo.length)/Math.log(2))+1];
     }
     
     /**
@@ -27,8 +26,8 @@ public class CRM{
      * @param d - El extremo derecho del rango
      * @return Regresa el índice con el mismo valor entre los dos parámetros
      */
-    public int Consulta(int i, int d){
-	int k = (int)Math.log(d-i); /* Tamaño de bloque a revisar */
+    public int consulta(int i, int d){
+	int k = (int)(Math.log(d-i)/Math.log(2)); /* Tamaño de bloque a revisar */
 	int indice1 = getMin(i, k); /* Índice del bloque izquierdo */
 	int indice2 = getMin((int)(d-Math.pow(2, k)+1), k); /* Índice del bloque derecho */
 	int valor1 = arreglo[indice1]; /* Valor del bloque izquierdo */
