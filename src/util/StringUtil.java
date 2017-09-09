@@ -46,6 +46,5 @@ public class StringUtil{
 	nueva += s;
 	nueva += "¿"; /* Relleno del final */
 	return nueva;
-    }
-     
+    }     
 }

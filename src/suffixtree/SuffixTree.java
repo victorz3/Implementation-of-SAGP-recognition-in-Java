@@ -3,6 +3,7 @@ package suffixtree;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import suffixtree.Ukkonen;
 import util.ComparadorLongitud;
 
 /* Clase para árboles de sufijo. 
@@ -20,6 +21,16 @@ public class SuffixTree{
     public SuffixTree(String cadena, Nodo raiz){
 	this.cadena = cadena;
 	this.raiz = raiz;
+    }
+
+    /**
+     * Regresa el árbol de sufijos dado por el algoritmo de Ukkonen.
+     * @param s - La cadena sobre la que construiremos el árbol de sufijos.
+     * @return El árbol de sufijos de la cadena s.
+     */
+    public static SuffixTree getSuffixTree(String s){
+	Ukkonen u = new Ukkonen(s); /* Instancia para realizar el algoritmo de Ukkonen */ 
+	return u.ukkonen();
     }
 
     /* Regresa la raíz del árbol */
