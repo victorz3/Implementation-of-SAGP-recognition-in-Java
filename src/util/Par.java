@@ -36,4 +36,17 @@ public class Par{
     public int getSnd(){
 	return snd;
     }
+
+    /**
+     * Nos dice si dos pares son iguales.
+     * @param o - El otro par a comparar
+     * @return Si los pares son iguales o no.
+     */
+    @Override
+    public boolean equals(Object o){
+	if(!(o instanceof Par))
+	    return false;
+	Par otro = (Par) o; /* Hacemos cast a Par */
+	return this.fst == otro.fst && this.snd == otro.snd;
+    }
 }

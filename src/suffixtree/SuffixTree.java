@@ -105,7 +105,7 @@ public class SuffixTree{
     /* Saca el arreglo de sufijos invertido de la cadena del árbol */
     private int[] reversedSuffixArray(){
 	List<Integer> sA = this.getSuffixArray(); /* Obtenemos el arreglo de 
-							* sufijos utilizando el singleton */
+						   * sufijos utilizando el singleton */
 	int[] rev = new int[sA.size()]; /* El arreglo que vamos a regresar */
 	for(int i = 0; i < sA.size(); ++i){
 	    rev[sA.get(i)-1] = i+1;

@@ -2,6 +2,7 @@
 package sagp.test;
 
 import sagp.SAGP;
+import util.Par;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
@@ -54,4 +55,16 @@ public class TestSAGP{
 	Integer[] resultado = {4, 2, 3, 5, 7, 6, 8, 11, 9, 12, 19, 14, 13, 15, 17, 16, 18, null, null, null};
 	Assert.assertTrue(Arrays.equals(instancia.getNextPos(), resultado));
     }
+
+    /**
+     * Prueba unitaria para {@link SAGP#naiveSAGP1}.
+     */
+    @Test public void testNaiveSAGP1(){
+	instancia = new SAGP("baaabaabaacbaabaabac");
+	instancia.naiveSAGP1();
+	Par[] sagp = instancia.getSAGP();
+	Assert.assertTrue(sagp[3].equals(new Par(0, 4)));
+	
+    }
+
 }

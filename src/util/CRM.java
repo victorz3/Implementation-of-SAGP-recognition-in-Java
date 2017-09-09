@@ -27,12 +27,16 @@ public class CRM{
      * @return Regresa el índice con el mismo valor entre los dos parámetros
      */
     public int consulta(int i, int d){
-	int k = (int)(Math.log(d-i)/Math.log(2)); /* Tamaño de bloque a revisar */
-	int indice1 = getMin(i, k); /* Índice del bloque izquierdo */
-	int indice2 = getMin((int)(d-Math.pow(2, k)+1), k); /* Índice del bloque derecho */
-	int valor1 = arreglo[indice1]; /* Valor del bloque izquierdo */
-	int valor2 = arreglo[indice2]; /* Valor del bloque derecho */
-	return valor1 < valor2 ? indice1 : indice2;
+	if(i > d)
+	    return consulta(d, i);
+	else{
+	    int k = (int)(Math.log(d-i)/Math.log(2)); /* Tamaño de bloque a revisar */
+	    int indice1 = getMin(i, k); /* Índice del bloque izquierdo */
+	    int indice2 = getMin((int)(d-Math.pow(2, k)+1), k); /* Índice del bloque derecho */
+	    int valor1 = arreglo[indice1]; /* Valor del bloque izquierdo */
+	    int valor2 = arreglo[indice2]; /* Valor del bloque derecho */
+	    return valor1 < valor2 ? indice1 : indice2;
+	}
     }
 
     /**

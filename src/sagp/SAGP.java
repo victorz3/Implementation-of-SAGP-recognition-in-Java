@@ -4,6 +4,7 @@ package sagp;
 
 import util.StringUtil;
 import util.Par;
+import util.CRM;
 import suffixtree.SuffixTree;
 import java.util.Map;
 import java.util.Hashtable;
@@ -83,14 +84,36 @@ public class SAGP{
      * Método ingenuo para calcular SAGP1(T).
      */
     public void naiveSAGP1(){
-	String reversa = StringBuilder(texto).reverse().toString(); /* Reversa del texto */
-	String textoPrima = texto + '$' + reversa; /* La T' del algoritmo */
+	StringBuilder r = new StringBuilder(t); /* Para sacar la reversa de t */
+	String reversa = r.reverse().toString(); /* Reversa del texto */
+	String textoPrima = t + '$' + reversa; /* La T' del algoritmo */
 	SuffixTree sT = SuffixTree.getSuffixTree(textoPrima); /* Árbol de sufijos de la cadena T' */
 	List<Integer> suffixArray = sT.getSuffixArray(); /* Arreglo de sufijos de T' */
 	int[] reversed = sT.getReversedSuffixArray(); /* Arreglo de sufijos invertido de T' */
 	int[] lcp = sT.getLCP(); /* Arreglo LCP de T' */
+	CRM crm = new CRM(lcp); /* Objeto para realizar consultas de rango mínimo sobre el arreglo lcp */
 	for(Integer posicion: this.tipo1){
-	    for(int gap = 1; gap < posicion - pals[posicion]; gap++);
+	    int max = 0; /* Valor de la máxima w encontrada */
+	    int maxgap = 0; /* Valor de la brecha con w más grande */
+	    for(int gap = 1; gap < posicion - pals[posicion]; gap++){
+		int pos1 = reversed[textoPrima.length()-(posicion-pals[posicion]-gap)-1]; /* Posición de T[1..i − Pals[i] − G]^R en SAT */
+		int pos2 = reversed[posicion + pals[posicion]]; /* Posición de T[i + Pals[i] + 1..n] en SAT */
+		int prefijo = crm.consulta(pos1, pos2);
+		if(prefijo > max){
+		    max = prefijo;
+		    maxgap = gap;
+		}
+	    }
+	    /* Llenamos con el sagp maximal canónico encontrado */
+	    sagp[posicion] = new Par(posicion - pals[posicion]- maxgap- max + 1, posicion + pals[posicion] + max); 
 	}
+    }
+
+    /**
+     * Regresa el arreglo con los sagp de la cadena. 
+     * @return El arreglo con coordenadas de inicio y final de los SAGP de la cadena.
+     */
+    public Par[] getSAGP(){
+	return this.sagp;
     }
 }
