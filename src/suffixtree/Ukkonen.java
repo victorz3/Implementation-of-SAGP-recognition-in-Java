@@ -118,7 +118,7 @@ public class Ukkonen{
 	    while(activeEdge != null && activeLength >= activeEdge.longitud()){
 		activeNode = activeEdge.getHasta();
 		activeLength -= activeEdge.longitud();
-		if(s.length() > ((i.getValue()-restantes)+1)+activeEdge.longitud())
+		if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+activeEdge.longitud())
 		    activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
 		else
 		    activeEdge = null;
@@ -153,13 +153,11 @@ public class Ukkonen{
 	    restantes++; /* Un sufijo más por insertar */
 	    if(insertado(actual)){
 		rutinaInsertado(actual);
-		//rutinaSalida(i);
 	    }else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
 		    if(insertado(actual)){
 			rutinaInsertado(actual);
-			//rutinaSalida(i);
 			break;
 		    }
 		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
