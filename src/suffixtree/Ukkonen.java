@@ -114,15 +114,13 @@ public class Ukkonen{
      * @param i - posición del último carácter leído.
      */
     public void rutinaSalida(MutableInt i){
-	if(activeEdge != null && activeLength >= activeEdge.longitud()){
-	    while(activeEdge != null && activeLength >= activeEdge.longitud()){
-		activeNode = activeEdge.getHasta();
-		activeLength -= activeEdge.longitud();
-		if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+activeEdge.longitud())
-		    activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
-		else
-		    activeEdge = null;
-	    }
+	while(activeEdge != null && activeLength >= activeEdge.longitud()){
+	    activeNode = activeEdge.getHasta();
+	    activeLength -= activeEdge.longitud();
+	    if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+activeEdge.longitud())
+		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
+	    else
+		activeEdge = null;
 	}
     }
 
@@ -134,10 +132,14 @@ public class Ukkonen{
      */
     public void regla3(MutableInt i){
 	activeNode = activeNode.getSuffixLink();
-	if(activeNode == null)
+	if(activeNode == null){
 	    activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
-	if(activeEdge != null)
-	    activeEdge = busca(activeEdge.getPrimero());
+	    activeEdge = busca(s.charAt(i.getValue() - restantes + 1));
+	    activeLength = restantes-1;
+       	}else{
+	    if(activeEdge != null)
+		activeEdge = busca(activeEdge.getPrimero());
+	}
 	rutinaSalida(i);
     }
   
@@ -191,8 +193,8 @@ public class Ukkonen{
     
     public static void main(String[] args){
 	//Ukkonen u = new Ukkonen("ccabaabc=cbaabacc");	
-	//Ukkonen u = new Ukkonen("mississippi");
-	Ukkonen u = new Ukkonen("aaa");
+	Ukkonen u = new Ukkonen("mississippi");
+	//Ukkonen u = new Ukkonen("baaabaabaacbaabaabac");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
 	System.out.println("Suffix array: " + t.getSuffixArray());
