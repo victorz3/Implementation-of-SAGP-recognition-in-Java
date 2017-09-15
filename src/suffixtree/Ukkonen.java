@@ -114,11 +114,13 @@ public class Ukkonen{
      * @param i - posición del último carácter leído.
      */
     public void rutinaSalida(MutableInt i){
+	int suma = 0; /* Vamos a almacenar la suma de las longitudes de las aristas activas que hayamos recorridos, para saber qué índice sigue */
 	while(activeEdge != null && activeLength >= activeEdge.longitud()){
+	    suma += activeEdge.longitud();
 	    activeNode = activeEdge.getHasta();
 	    activeLength -= activeEdge.longitud();
-	    if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+activeEdge.longitud())
-		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeEdge.longitud()));
+	    if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+suma)
+		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+suma));
 	    else
 		activeEdge = null;
 	}
@@ -193,8 +195,9 @@ public class Ukkonen{
     
     public static void main(String[] args){
 	//Ukkonen u = new Ukkonen("ccabaabc=cbaabacc");	
-	Ukkonen u = new Ukkonen("mississippi");
+	//Ukkonen u = new Ukkonen("mississippi");
 	//Ukkonen u = new Ukkonen("baaabaabaacbaabaabac");
+	Ukkonen u = new Ukkonen("acacabaabca$acbaabacaca");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
 	System.out.println("Suffix array: " + t.getSuffixArray());

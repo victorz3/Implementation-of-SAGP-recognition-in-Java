@@ -20,7 +20,7 @@ import org.junit.rules.Timeout;
  */
 public class TestSAGP{
 
-    private static SAGP instancia = new SAGP("baaabaabaacbaabaabac");
+    private static SAGP instancia = new SAGP("baaabaab");
     
     /** Expiración para que ninguna prueba tarde más de 5 segundos. */
     @Rule public Timeout expiracion = Timeout.seconds(5);
