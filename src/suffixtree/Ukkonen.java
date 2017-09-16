@@ -138,7 +138,7 @@ public class Ukkonen{
 	    activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
 	    activeEdge = busca(s.charAt(i.getValue() - restantes + 1));
 	    activeLength = restantes-1;
-       	}else{
+	}else{
 	    if(activeEdge != null)
 		activeEdge = busca(activeEdge.getPrimero());
 	}
@@ -169,8 +169,15 @@ public class Ukkonen{
 			Arista nueva = new Arista(s.charAt(i.getValue()), activeNode, nuevo, i.getValue(), i);
 			restantes--;
 			primeroInsertado = false;
-			if(activeNode != root)
-			    regla3(i);
+			if(activeNode != root){
+			    if(restantes == 1){
+				activeNode = root;
+				activeEdge = null;
+				activeLength = 0;
+				continue;
+			    }else
+				regla3(i);
+			}
 		    }else{ /* Partimos la arista */
 			split(i);
 			if(!primeroInsertado)
