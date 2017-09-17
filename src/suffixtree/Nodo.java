@@ -10,6 +10,23 @@ public class Nodo{
     private Nodo suffixLink = null; /* Suffix Link */
     private Arista padre; /* La arista que incide en el nodo */
     private List<Arista> aristas = new ArrayList<>(); /* Aristas que salen del Nodo */        
+    private int longitud = 0; /* Longitud de la subcadena que va desde la raíz hasta este Nodo en el árbol de sufijos. */
+
+    /**
+     * Establece el valor de la longitud.
+     * @param longitud - La longitud de la subcadena que va desde la raíz hasta este Nodo.
+     */
+    public void setLongitud(int longitud){
+	this.longitud = longitud;
+    }
+
+    /**
+     * Regresa la longitud de la subcadena que va desde la raíz hasta este Nodo. 
+     * @return La longitud de la subcadena que va desde la raíz hasta este Nodo.
+     */
+    public int getLongitud(){
+	return this.longitud;
+    }
     
     /* Pone el 'enlace de sufijo' */
     public void setSuffixLink(Nodo link){

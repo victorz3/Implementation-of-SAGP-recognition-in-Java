@@ -146,7 +146,7 @@ public class TestUkkonen{
 	uk = new Ukkonen("acacabaabca$acbaabacaca");	
 	t = uk.ukkonen();
 	l = t.subcadenas(t.getRaiz());
-	Assert.assertTrue(l.size() == 23);
+	Assert.assertTrue(l.size() == 24);
 	uk = new Ukkonen("baaabaabaacbaabaabac");	
 	t = uk.ukkonen();
 	l = t.subcadenas(t.getRaiz());

@@ -21,6 +21,7 @@ public class Arista implements Comparable<Arista>{
 	this.inicio = inicio;
 	this.fin = fin;
 	desde.nuevaArista(this);
+	this.hasta.setLongitud(desde.getLongitud() + this.longitud());
     }
 
     /* Compara dos Aristas */
@@ -63,6 +64,7 @@ public class Arista implements Comparable<Arista>{
     /* Cambia el punto de terminación de la Arista */
     public void setFin(MutableInt fin){
 	this.fin = fin;
+	this.hasta.setLongitud(desde.getLongitud() + this.longitud());
     }
 
     /* Regresa la longitud de la Arista */
@@ -114,6 +116,7 @@ public class Arista implements Comparable<Arista>{
     public void setHasta(Nodo n){
 	this.hasta = n;
 	n.setPadre(this);
+	this.hasta.setLongitud(desde.getLongitud() + this.longitud());
     }
 
     /**

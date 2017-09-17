@@ -118,9 +118,9 @@ public class Ukkonen{
 	while(activeEdge != null && activeLength >= activeEdge.longitud()){
 	    suma += activeEdge.longitud();
 	    activeNode = activeEdge.getHasta();
-	    activeLength -= activeEdge.longitud();
+	    activeLength -= activeEdge.longitud(); 
 	    if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+suma)
-		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+suma));
+		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeNode.getLongitud()));
 	    else
 		activeEdge = null;
 	}
