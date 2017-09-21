@@ -49,4 +49,13 @@ public class Par{
 	Par otro = (Par) o; /* Hacemos cast a Par */
 	return this.fst == otro.fst && this.snd == otro.snd;
     }
+
+    /**
+     * Regresa una cadena que representa al Par.
+     * @return Cadena representativa del par.
+     */
+    @Override
+    public String toString(){
+	return "(" + fst + ", " + snd + ")";
+    }
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Arrays;
 
 /**
  * Clase para calcular los SAGP de una cadena.
@@ -49,7 +50,7 @@ public class SAGP{
 	}
 	/* Clasificamos posiciones de acuerdo a su tipo (1 o 2). */
 	for(int i = 1; i < texto.length(); ++i){
-	    if(pals[i] > 0 && lMost.get(texto.charAt(i + pals[i])) < i - pals[i])
+	    if(pals[i] > 0 && texto.length() > i + pals[i] && lMost.get(texto.charAt(i + pals[i])) < i - pals[i])
 		tipo1.add(i);
 	    else
 		tipo2.add(i);
@@ -96,16 +97,16 @@ public class SAGP{
 	    int max = 0; /* Valor de la máxima w encontrada */
 	    int maxgap = 0; /* Valor de la brecha con w más grande */
 	    for(int gap = 1; gap < posicion - pals[posicion]; gap++){
-		int pos1 = reversed[textoPrima.length()-(posicion-pals[posicion]-gap)-1]; /* Posición de T[1..i − Pals[i] − G]^R en SAT */
+		int pos1 = reversed[2* t.length() - (posicion-pals[posicion]-gap-1)]; /* Posición de T[1..i − Pals[i] − G]^R en SAT */
 		int pos2 = reversed[posicion + pals[posicion]]; /* Posición de T[i + Pals[i] + 1..n] en SAT */
-		int prefijo = crm.consulta(pos1, pos2);
-		if(prefijo > max){
-		    max = prefijo;
+		int prefijo = pos1 < pos2? crm.consulta(pos1, pos2-1) : crm.consulta(pos2, pos1-1);
+		if(lcp[prefijo] > max){
+		    max = lcp[prefijo];
 		    maxgap = gap;
 		}
 	    }
 	    /* Llenamos con el sagp maximal canónico encontrado */
-	    sagp[posicion] = new Par(posicion - pals[posicion]- maxgap- max + 1, posicion + pals[posicion] + max); 
+	    sagp[posicion] = new Par(posicion - pals[posicion]- maxgap- max, posicion + pals[posicion] + max-1); 
 	}
     }
 
