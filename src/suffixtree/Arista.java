@@ -21,7 +21,7 @@ public class Arista implements Comparable<Arista>{
 	this.inicio = inicio;
 	this.fin = fin;
 	desde.nuevaArista(this);
-	this.hasta.setLongitud(desde.getLongitud() + this.longitud());
+	this.hasta.setLongitud(desde.getLongitud() + this.longitud()); 
     }
 
     /* Compara dos Aristas */

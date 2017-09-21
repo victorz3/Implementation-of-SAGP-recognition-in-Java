@@ -89,9 +89,11 @@ public class Ukkonen{
 	    Arista nueva2 = new Arista(s.charAt(indice.getValue()), activeEdge.getHasta(), nuevo2, indice.getValue(), indice);
 	}else{
 	    Nodo nuevo1 = new Nodo(); /* Nuevo nodo hasta el que llega la arista */
-	    Arista conexion = new Arista(s.charAt(puntoPartida+1), nuevo1, activeEdge.getHasta(), puntoPartida+1, activeEdge.getFin());
+	    Nodo derecho = activeEdge.getHasta(); /* Extremo derecho de la arista activa */
+	    MutableInt acaba = activeEdge.getFin(); /* Donde acaba la arista activa */
 	    activeEdge.setHasta(nuevo1);
 	    activeEdge.setFin(new MutableInt(puntoPartida));
+	    Arista conexion = new Arista(s.charAt(puntoPartida+1), nuevo1, derecho, puntoPartida+1, acaba);
 	    Nodo nuevo2 = new Nodo(); /* Nodo recién insertado */
 	    Arista nueva = new Arista(s.charAt(indice.getValue()), nuevo1, nuevo2, indice.getValue(), indice);
 	}
@@ -102,9 +104,9 @@ public class Ukkonen{
 	if(activeEdge == null) /* Si no hay arista activa, la creamos */
 	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
 	/* Verificamos si ya nos salimos de la arista */
-	if(activeLength +1 >= activeEdge.longitud()){
+	if(activeLength +1 == activeEdge.longitud()){
 	    activeNode = activeEdge.getHasta();
-	    activeLength = activeLength +1 - activeEdge.longitud();
+	    activeLength = 0;
 	    activeEdge = null;
 	}else /* No nos salimos de la arista */
 	    activeLength++;
@@ -114,12 +116,10 @@ public class Ukkonen{
      * @param i - posición del último carácter leído.
      */
     public void rutinaSalida(MutableInt i){
-	int suma = 0; /* Vamos a almacenar la suma de las longitudes de las aristas activas que hayamos recorridos, para saber qué índice sigue */
 	while(activeEdge != null && activeLength >= activeEdge.longitud()){
-	    suma += activeEdge.longitud();
 	    activeNode = activeEdge.getHasta();
 	    activeLength -= activeEdge.longitud(); 
-	    if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+suma)
+	    if(activeLength != 0 && s.length() > ((i.getValue()-restantes)+1)+activeNode.getLongitud())
 		activeEdge = busca(s.charAt(((i.getValue()-restantes)+1)+activeNode.getLongitud()));
 	    else
 		activeEdge = null;
@@ -203,8 +203,8 @@ public class Ukkonen{
     public static void main(String[] args){
 	//Ukkonen u = new Ukkonen("ccabaabc=cbaabacc");	
 	//Ukkonen u = new Ukkonen("mississippi");
-	//Ukkonen u = new Ukkonen("baaabaabaacbaabaabac");
-	Ukkonen u = new Ukkonen("acacabaabca$acbaabacaca");
+	Ukkonen u = new Ukkonen("baaabaabaacbaabaabac");
+	//Ukkonen u = new Ukkonen("acacabaabca$acbaabacaca");
 	SuffixTree t = u.ukkonen();
 	t.printSufijos();
 	System.out.println("Suffix array: " + t.getSuffixArray());
