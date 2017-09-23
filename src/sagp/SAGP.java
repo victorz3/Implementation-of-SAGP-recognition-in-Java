@@ -11,6 +11,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Clase para calcular los SAGP de una cadena.
@@ -24,7 +25,7 @@ public class SAGP{
     private Map<Character, Integer> lMost; /* Diccionario con la posición más a la izquierda de cada carácter en el texto */
     private List<Integer> tipo1; /* Lista de posiciones de tipo 1. */
     private List<Integer> tipo2; /* Lista de posiciones de tipo 2. */
-    private Par[] sagp; /* Arreglo donde guardamos los SAGP (guardo un par con sus posiciones inicial y final)*/
+    private List<List<Par>> sagp; /* Lista donde guardamos los SAGP (cada posición tiene una lista de pares; cada par tiene las posiciones inicial y final del SAGP)*/
     
     /**
      * Constructor.
@@ -32,7 +33,8 @@ public class SAGP{
      */
     public SAGP(String texto){
 	this.t = texto;
-	this.sagp = new Par[texto.length()];
+	this.sagp = new ArrayList<>(texto.length());
+	while(sagp.size() < texto.length()) sagp.add(null); /* Incrementamos el tamaño de nuestra lista con nulos para poder usar insert. */
 	/* Algoritmo para calcular SAGP(T): */
 	pals = StringUtil.pals(t);
 	char c; /* El carácter actual */
@@ -42,8 +44,7 @@ public class SAGP{
 	tipo1 = new LinkedList<>();
 	tipo2 = new LinkedList<>();
 	/* Llenamos arreglos necesarios para el algoritmo */
-	for(int i = texto.length()-1; i >= 0; --i){/* Solo vamos a clasificar pivotes entre 1 y
-length-1 */
+	for(int i = texto.length()-1; i >= 0; --i){/* Solo vamos a clasificar pivotes entre 1 y length-1 */
 	    c = texto.charAt(i);
 	    nextPos[i] = lMost.get(c);
 	    lMost.put(c, i);
@@ -94,27 +95,32 @@ length-1 */
 	int[] lcp = sT.getLCP(); /* Arreglo LCP de T' */
 	CRM crm = new CRM(lcp); /* Objeto para realizar consultas de rango mínimo sobre el arreglo lcp */
 	for(Integer posicion: this.tipo1){
+	    List<Par> canonicos = new ArrayList<>(); /* Lista donde iremos guardando los SAGP maximales canónicos */
 	    int max = 0; /* Valor de la máxima w encontrada */
 	    int maxgap = 0; /* Valor de la brecha con w más grande */
 	    for(int gap = 1; gap < posicion - pals[posicion]; gap++){
 		int pos1 = reversed[2* t.length() - (posicion-pals[posicion]-gap-1)]; /* Posición de T[1..i − Pals[i] − G]^R en SAT */
 		int pos2 = reversed[posicion + pals[posicion]]; /* Posición de T[i + Pals[i] + 1..n] en SAT */
-		int prefijo = pos1 < pos2? crm.consulta(pos1, pos2-1) : crm.consulta(pos2, pos1-1);
+		int prefijo = pos1 < pos2 ? crm.consulta(pos1, pos2-1) : crm.consulta(pos2, pos1-1);
 		if(lcp[prefijo] > max){
+		    canonicos = new ArrayList<>(); /* Encontramos un w más grande, entonces los SAGP que encontramos antes no nos sirven */
 		    max = lcp[prefijo];
 		    maxgap = gap;
-		}
+		    canonicos.add(new Par(posicion - pals[posicion]- maxgap- max, posicion + pals[posicion] + max-1));
+		}else if(lcp[prefijo] == max) /* Si encontramos otro maximal canónico del mismo tamaño, lo agregamos */
+		    canonicos.add(new Par(posicion - pals[posicion]- gap- max, posicion + pals[posicion] + max-1));
 	    }
 	    /* Llenamos con el sagp maximal canónico encontrado */
-	    sagp[posicion] = new Par(posicion - pals[posicion]- maxgap- max, posicion + pals[posicion] + max-1); 
+	    sagp.set(posicion, canonicos); 
 	}
     }
 
     /**
-     * Regresa el arreglo con los sagp de la cadena. 
-     * @return El arreglo con coordenadas de inicio y final de los SAGP de la cadena.
+     * Regresa la lista de SAGP para una posición.
+     * @param pos - La posición para la cual regresaremos los SAGP maximales canónicos.
+     * @return La lisa con coordenadas de inicio y final de los SAGP maximales canónicos de la posición.
      */
-    public Par[] getSAGP(){
-	return this.sagp;
+    public List<Par> getSAGP(int pos){
+	return this.sagp.get(pos);
     }
 }

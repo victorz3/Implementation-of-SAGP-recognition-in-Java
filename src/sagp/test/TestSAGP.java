@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -70,13 +71,24 @@ public class TestSAGP{
      */
     @Test public void testNaiveSAGP1(){
 	instancia2.naiveSAGP1();
-	Par[] sagp2 = instancia2.getSAGP();
-	Assert.assertTrue(sagp2[3].equals(new Par(0, 4)));
+	List<Par> sagp = instancia2.getSAGP(3);
+	List<Par> resultado = new ArrayList<>();
+	resultado.add(new Par(0, 4));
+	Assert.assertTrue(sagp.equals(resultado));
 	instancia.naiveSAGP1();
-	Par[] sagp = instancia.getSAGP();
-	Assert.assertTrue(sagp[3].equals(new Par(0, 4)));
-	Assert.assertTrue(sagp[13].equals(new Par(6, 18)));
-	Assert.assertTrue(sagp[16].equals(new Par(10, 19)));
+	sagp = instancia.getSAGP(3);
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 4));
+	Assert.assertTrue(sagp.equals(resultado));
+	sagp = instancia.getSAGP(13);
+	resultado = new ArrayList<>();
+	resultado.add(new Par(6, 18));
+	resultado.add(new Par(3, 18));
+	Assert.assertTrue(sagp.equals(resultado));
+	sagp = instancia.getSAGP(16);
+	resultado = new ArrayList<>();
+	resultado.add(new Par(10, 19));
+	Assert.assertTrue(sagp.equals(resultado));
     }
 
 }
