@@ -127,12 +127,12 @@ public class Ukkonen{
     }
 
     /**
-     * Regla 3 del algoritmo de Ukkonen: Si insertamos con Nodo activo != null, entonces
+     * Regla 2 del algoritmo de Ukkonen: Si insertamos con Nodo activo != null, entonces
      * 1) nodo activo se vuelve el enlace de sufijo del nodo activo.
      * 2) active_edge y active_length se quedan iguales
      * @param i - el índice de la iteración del algoritmo
      */
-    public void regla3(MutableInt i){
+    public void regla2(MutableInt i){
 	activeNode = activeNode.getSuffixLink();
 	if(activeNode == null){
 	    activeNode = root; /* Si no había enlace de sufijo, la raíz se vuelve el nodo activo */
@@ -155,15 +155,15 @@ public class Ukkonen{
 	    boolean primeroInsertado = true; /* Nos dice si el sufijo fue el primero en insertarse en esta iteración */
 	    actual = s.charAt(i.getValue()); /* Leemos el siguiente carácter */
 	    restantes++; /* Un sufijo más por insertar */
-	    if(insertado(actual)){
+	    if(insertado(actual))
 		rutinaInsertado(actual);
-	    }else{ /* El carácter no se ha insertado */
+ 	    else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
 		    if(insertado(actual)){
 			rutinaInsertado(actual);
 			break;
-		    }
+ 		    }
 		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
 			Nodo nuevo = new Nodo(); /* Extremo de la nueva arista */
 			Arista nueva = new Arista(s.charAt(i.getValue()), activeNode, nuevo, i.getValue(), i);
@@ -176,7 +176,7 @@ public class Ukkonen{
 				activeLength = 0;
 				continue;
 			    }else
-				regla3(i);
+				regla2(i);
 			}
 		    }else{ /* Partimos la arista */
 			split(i);
@@ -192,7 +192,7 @@ public class Ukkonen{
 			    activeEdge = activeLength == 0 ? null : busca(s.charAt((i.getValue()-restantes)+1));
 			    rutinaSalida(i);
 			}else
-			    regla3(i);
+			    regla2(i);
 		    }
 		}
 	    }

@@ -33,7 +33,6 @@ public class SAGP{
     public SAGP(String texto){
 	this.t = texto;
 	this.sagp = new Par[texto.length()];
-
 	/* Algoritmo para calcular SAGP(T): */
 	pals = StringUtil.pals(t);
 	char c; /* El carácter actual */

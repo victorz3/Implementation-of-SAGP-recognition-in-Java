@@ -51,7 +51,6 @@ public class CRM{
      * @return El índice del mínimo elemento en el intervalo [i, i + 2^k -1].
      */
     public int getMin(int i, int k){
-	
 	if(query[i][k] == null){
 	    if(k == 0)
 		query[i][k] = i;
