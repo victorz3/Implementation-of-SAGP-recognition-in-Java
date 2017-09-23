@@ -42,7 +42,8 @@ public class SAGP{
 	tipo1 = new LinkedList<>();
 	tipo2 = new LinkedList<>();
 	/* Llenamos arreglos necesarios para el algoritmo */
-	for(int i = texto.length()-1; i >= 0; --i){
+	for(int i = texto.length()-1; i >= 0; --i){/* Solo vamos a clasificar pivotes entre 1 y
+length-1 */
 	    c = texto.charAt(i);
 	    nextPos[i] = lMost.get(c);
 	    lMost.put(c, i);
