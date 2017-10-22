@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Clase para calcular los SAGP de una cadena.
@@ -26,10 +27,11 @@ public class SAGP{
     private List<Integer> tipo1; /* Lista de posiciones de tipo 1. */
     private List<Integer> tipo2; /* Lista de posiciones de tipo 2. */
     private List<List<Par>> sagp; /* Lista donde guardamos los SAGP (cada posición tiene una lista de pares; cada par tiene las posiciones inicial y final del SAGP)*/
+    private int[] findR; /* El arreglo FindR de la cadena. */
     
     /**
      * Constructor.
-     * @param text - El texto sobre el que queremos encontrar SAGP.
+     * @param texto - El texto sobre el que queremos encontrar SAGP.
      */
     public SAGP(String texto){
 	this.t = texto;
@@ -122,5 +124,45 @@ public class SAGP{
      */
     public List<Par> getSAGP(int pos){
 	return this.sagp.get(pos);
+    }
+
+    /* Calcula el arreglo FindR de la cadena. */
+    private void calculaFindR(){
+	this.findR = new int[t.length()]; /* Inicializamos el arreglo */
+	int minIn, minOut; /* minin y minout en el algoritmo */
+	minIn = minOut = Integer.MAX_VALUE; 
+	Map<Character, Integer> occ1, occ2; /* Diccionarios con la última y penúltima posición vista de cada carácter */
+	int tamano = 256 < t.length() ? 256 : t.length(); /* Tamaño del alfabeto */
+	occ1 = new Hashtable<>(tamano);
+	occ2 = new Hashtable<>(tamano);
+	Stack<Integer> pila = new Stack<>();
+	Character c; /* El carácter actual */
+	for(int i = t.length()-1; i >= 0; --i){
+	    c = t.charAt(i);
+	    if(occ1.get(c) != null)
+		occ2.put(c, occ1.get(c));
+	    else
+		occ2.put(c, Integer.MAX_VALUE);
+	    occ1.put(c, i+1);
+	    minIn = occ2.get(c) < minIn ? occ2.get(c) : minIn; /* Asignamos a minIn el mínimo de minIn y occ2[c] */
+	    pila.push(i);
+	    while(!pila.empty() && lMost.get(t.charAt(pila.peek())) >= i)
+		pila.pop();
+	    if(pila.empty())
+		minOut = Integer.MAX_VALUE;
+	    else
+		minOut = pila.peek()+1;
+	    findR[i] = minIn < minOut ? minIn : minOut; 
+	}	
+    }
+
+    /**
+     * Regresa el arrelo FindR de la cadena.
+     * @return El arreglo FindR de la cadena.
+     */
+    public int[] getFindR(){
+	if(this.findR == null)
+	    calculaFindR();
+	return this.findR;
     }
 }

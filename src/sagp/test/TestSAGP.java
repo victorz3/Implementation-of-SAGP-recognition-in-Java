@@ -65,7 +65,7 @@ public class TestSAGP{
 	Integer[] resultado2 = {4, 2, 3, 5, 7, 6, null, null};
 	Assert.assertTrue(Arrays.equals(instancia2.getNextPos(), resultado2));
     }
-
+ 
     /**
      * Prueba unitaria para {@link SAGP#naiveSAGP1}.
      */
@@ -91,4 +91,15 @@ public class TestSAGP{
 	Assert.assertTrue(sagp.equals(resultado));
     }
 
+    /**
+     * Prueba unitaria para {@link SAGP#getFindR}.
+     */
+    @Test public void testGetFindR(){
+	int[] findR = instancia2.getFindR();
+	int[] otro = {3, 3, 3, 4, 5, 6, 7, 8};
+       	Assert.assertTrue(Arrays.equals(findR, otro));
+	findR = instancia.getFindR();
+	int[] otro2 = {3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 12, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+	Assert.assertTrue(Arrays.equals(findR, otro2));
+    }
 }
