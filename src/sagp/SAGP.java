@@ -118,6 +118,26 @@ public class SAGP{
     }
 
     /**
+     * Método que calcula SAGP2.*/
+    public void SAGP2(){
+	if(this.findR == null)
+	    calculaFindR();
+	for(Integer posicion: this.tipo2){ /* Iteramos sobre las posiciones de tipo 2 */
+	    List<Par> canonicos = new ArrayList<>(); /* Lista donde iremos guardando los SAGP maximales canónicos */
+	    int r = findR[posicion - pals[posicion] + 1] < posicion ? findR[posicion - pals[posicion] + 1] : Integer.MAX_VALUE;
+	    int gapsize = r - lMost.get(t.charAt(r-1)); /* Tamaño de la brecha */
+	    while(gapsize > 0){
+		canonicos.add(new Par(r-gapsize-1, posicion + posicion - r)); /* Agregamos el sagp a la lista */
+		int rant = r; /* Guardamos una copia del valor de r */
+		r = nextPos[r]; /* r se vuelve su siguiente posición. */
+		gapsize = gapsize - (r-rant); /* Nueva longitud de brecha */
+	    }
+	    sagp.set(posicion, canonicos);
+	}
+    }
+
+
+    /**
      * Regresa la lista de SAGP para una posición.
      * @param pos - La posición para la cual regresaremos los SAGP maximales canónicos.
      * @return La lisa con coordenadas de inicio y final de los SAGP maximales canónicos de la posición.
