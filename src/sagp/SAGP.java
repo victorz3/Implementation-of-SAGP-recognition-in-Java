@@ -68,6 +68,15 @@ public class SAGP{
 	return this.tipo1;
     }
 
+    /** 
+     * Regresa la lista de posiciones de Tipo 2.
+     * @return La lista de posiciones de Tipo 2.
+     */
+    public List<Integer> getTipo2(){
+	return this.tipo2;
+    }
+
+    
     /**
      * Regresa el diccionario con las posiciones más a la izquierda de cada carácter.
      * @return El diccionario con las posiciones más a la izquierda de cada carácter.
@@ -124,13 +133,20 @@ public class SAGP{
 	    calculaFindR();
 	for(Integer posicion: this.tipo2){ /* Iteramos sobre las posiciones de tipo 2 */
 	    List<Par> canonicos = new ArrayList<>(); /* Lista donde iremos guardando los SAGP maximales canónicos */
-	    int r = findR[posicion - pals[posicion] + 1] < posicion ? findR[posicion - pals[posicion] + 1] : Integer.MAX_VALUE;
-	    int gapsize = r - lMost.get(t.charAt(r-1)); /* Tamaño de la brecha */
-	    while(gapsize > 0){
-		canonicos.add(new Par(r-gapsize-1, posicion + posicion - r)); /* Agregamos el sagp a la lista */
-		int rant = r; /* Guardamos una copia del valor de r */
-		r = nextPos[r]; /* r se vuelve su siguiente posición. */
-		gapsize = gapsize - (r-rant); /* Nueva longitud de brecha */
+	    Integer r; /* La r del algoritmo */
+	    if(pals[posicion] == 0 || pals[posicion] == 1)
+		r = Integer.MAX_VALUE;
+	    else
+		r = findR[posicion - pals[posicion]] < posicion ?
+		    findR[posicion - pals[posicion]] : Integer.MAX_VALUE;
+	    if(r < Integer.MAX_VALUE){
+		Integer copia = r; /* Copia de r (se guarda para tener el extremo derecho del sagp */
+		int gapsize = r - lMost.get(t.charAt(r-1)) -1; /* Tamaño de la brecha */
+ 		while(gapsize > 0){
+		    canonicos.add(new Par(r-gapsize-1, posicion + posicion - copia)); /* Agregamos el sagp a la lista */
+		    int izqSig = nextPos[r-gapsize-1]; /* Extremo izquierdo del siguiente sagp */
+		    gapsize -= (izqSig-(r-gapsize-1)); /* Nueva longitud de brecha */
+		}
 	    }
 	    sagp.set(posicion, canonicos);
 	}

@@ -102,4 +102,53 @@ public class TestSAGP{
 	int[] otro2 = {3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 12, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 	Assert.assertTrue(Arrays.equals(findR, otro2));
     }
+
+    /**
+     * Prueba unitaria para {@link SAGP#SAGP2}.
+     */
+    @Test public void testGetSAGP2(){
+	instancia.SAGP2();
+	for(Integer posicion: instancia.getTipo2()){
+	    if(posicion == 6)
+		continue;
+	    Assert.assertTrue(instancia.getSAGP(posicion).equals(new ArrayList<>()));
+	}
+	List<Par> resultado = new ArrayList<>();
+	resultado.add(new Par(1, 9));
+	Assert.assertTrue(instancia.getSAGP(6).equals(resultado));
+	instancia2.SAGP2();
+	for(Integer posicion: instancia2.getTipo2()){
+	    if(posicion == 6)
+		continue;
+	    Assert.assertTrue(instancia2.getSAGP(posicion).equals(new ArrayList<>()));
+	}
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 7));
+	Assert.assertTrue(instancia2.getSAGP(6).equals(resultado));
+	SAGP instancia3 = new SAGP("aaaaaaabccbaae");
+	instancia3.SAGP2();
+	for(Integer posicion: instancia3.getTipo2()){
+	    if(posicion == 3 || posicion == 4 || posicion == 5 || posicion == 9)
+		continue;
+	    Assert.assertTrue(instancia3.getSAGP(posicion).equals(new ArrayList<>()));
+	}
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 4));
+	Assert.assertTrue(instancia3.getSAGP(3).equals(resultado));	
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 6));
+	Assert.assertTrue(instancia3.getSAGP(4).equals(resultado));
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 6));
+	resultado.add(new Par(1, 6));
+	resultado.add(new Par(2, 6));
+	Assert.assertTrue(instancia3.getSAGP(5).equals(resultado));
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 12));
+	resultado.add(new Par(1, 12));
+	resultado.add(new Par(2, 12));	
+	resultado.add(new Par(3, 12));
+	resultado.add(new Par(4, 12));
+	Assert.assertTrue(instancia3.getSAGP(9).equals(resultado));	
+    }
 }
