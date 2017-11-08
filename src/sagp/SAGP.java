@@ -127,6 +127,26 @@ public class SAGP{
     }
 
     /**
+     * Método cuadrático simple para calcular SAGP1(T).
+     */
+    public void simpleQuadraticSAGP1(){
+	StringBuilder r = new StringBuilder(t); /* Para sacar la reversa de t */
+	String reversa = r.reverse().toString(); /* Reversa del texto */
+	String textoPrima = t + '$' + reversa; /* La T' del algoritmo */
+	SuffixTree sT = SuffixTree.getSuffixTree(textoPrima); /* Árbol de sufijos de la cadena T' */
+	List<Integer> suffixArray = sT.getSuffixArray(); /* Arreglo de sufijos de T' */
+	int[] reversed = sT.getReversedSuffixArray(); /* Arreglo de sufijos invertido de T' */
+	int[] lcp = sT.getLCP(); /* Arreglo LCP de T' */
+    }
+
+    /* Calcula la posición original de un índice para el algoritmo cuadrático simple */
+    private int op(int indice){
+	return 0;
+    }
+      
+    
+
+    /**
      * Método que calcula SAGP2.*/
     public void SAGP2(){
 	if(this.findR == null)
