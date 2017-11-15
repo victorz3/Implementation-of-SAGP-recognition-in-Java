@@ -24,6 +24,14 @@ public class SuffixTree{
     }
 
     /**
+     * Regresa la cadena sobre la que se construyó el árbol.
+     * @return La cadena sobre la que se construyó el árbol.
+     */
+    public String getCadena(){
+	return this.cadena;
+    }
+
+    /**
      * Regresa el árbol de sufijos dado por el algoritmo de Ukkonen.
      * @param s - La cadena sobre la que construiremos el árbol de sufijos.
      * @return El árbol de sufijos de la cadena s.

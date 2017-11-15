@@ -92,6 +92,33 @@ public class TestSAGP{
     }
 
     /**
+       * Prueba unitaria para {@link SAGP#naiveSAGP1}.
+     */
+    @Test public void testSimpleQuadraticSAGP1(){
+	instancia2.simpleQuadraticSAGP1();
+	List<Par> sagp = instancia2.getSAGP(3);
+	List<Par> resultado = new ArrayList<>();
+	resultado.add(new Par(0, 4));
+	System.out.println(sagp);
+	Assert.assertTrue(sagp.equals(resultado));
+	instancia.simpleQuadraticSAGP1();
+	sagp = instancia.getSAGP(3);
+	resultado = new ArrayList<>();
+	resultado.add(new Par(0, 4));
+	Assert.assertTrue(sagp.equals(resultado));
+	sagp = instancia.getSAGP(13);
+	resultado = new ArrayList<>();
+	resultado.add(new Par(6, 18));
+	resultado.add(new Par(3, 18));
+	Assert.assertTrue(sagp.equals(resultado));
+	sagp = instancia.getSAGP(16);
+	resultado = new ArrayList<>();
+	resultado.add(new Par(10, 19));
+	Assert.assertTrue(sagp.equals(resultado));
+    }
+
+
+    /**
      * Prueba unitaria para {@link SAGP#getFindR}.
      */
     @Test public void testGetFindR(){

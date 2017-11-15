@@ -128,6 +128,7 @@ public class SAGP{
 
     /**
      * Método cuadrático simple para calcular SAGP1(T).
+     * Debugging this is going to be a nightmare.
      */
     public void simpleQuadraticSAGP1(){
 	StringBuilder r = new StringBuilder(t); /* Para sacar la reversa de t */
@@ -137,11 +138,92 @@ public class SAGP{
 	List<Integer> suffixArray = sT.getSuffixArray(); /* Arreglo de sufijos de T' */
 	int[] reversed = sT.getReversedSuffixArray(); /* Arreglo de sufijos invertido de T' */
 	int[] lcp = sT.getLCP(); /* Arreglo LCP de T' */
-    }
+	CRM crm = new CRM(lcp); /* Objeto para realizar consultas de rango mínimo sobre el arreglo lcp */
 
-    /* Calcula la posición original de un índice para el algoritmo cuadrático simple */
+	/* Iteramos sobre los sufijos */
+	for(Integer posicion: this.tipo1){
+	    int k = reversed[posicion + pals[posicion]] -1; /* Posición de T[i + Pals[i] + 1..n] en SAT */
+	    for(Integer x: suffixArray)
+		System.out.println(sT.getCadena().substring(x-1));
+	    System.out.println("k: " + k);
+	    int inicial = posicion - pals[posicion]; /* Posición inicial de uuR */
+	    System.out.println("inicial: " + inicial);
+	    /* Ahora recorremos SA hacia atrás y hacia adelante */
+	    /* Primero hacia atrás */
+	    int p = -1; /* Incializamos la p del algoritmo con un valor de 'error'. */
+	    System.out.println(suffixArray);
+	    System.out.println("k: " + k);
+	    for(int i = k-1; i >= 0; --i){
+		int x = suffixArray.get(i)-1; /* El iésimo elemento del arreglo de sufijos */
+		System.out.println("x: " + x);
+		if(x > t.length() && op(x) < (inicial - 1)){
+		    p = i;
+		    break;
+		}
+	    }
+	    int q = -1; /* Lo mismo que con p */
+	    for(int i = k+1; i < suffixArray.size(); ++i){
+		int x = suffixArray.get(i)-1; /* El iésimo elemento del arreglo de sufijos */
+		if(x >= t.length() && op(x) < (inicial - 1)){
+		    q = i;
+		    break;
+		}
+	    }
+	    /* Ya tenemos los valores de p y q */
+	    System.out.println(Arrays.toString(lcp));
+	    int prefijop = -1; /* lcp(p, k) */
+	    int prefijoq = -1; /* lcp(k, q) */
+	    if(p != -1)
+		prefijop = lcp[crm.consulta(p+1, k+1)];
+	    if(q != -1)
+		prefijoq = lcp[crm.consulta(k+1, q+1)];
+	    int w = prefijop > prefijoq ? prefijop : prefijoq; /* Longitud de la W en el SAGP */
+	    int sp = -1; /* La mayor s < p que cumple LCP[s+1] < W (donde W es la longitud de prefijo) */
+	    int sq = -1; /* La menor s > q que cumple LCP[s-1] < W (donde W es la longitud de prefijo) */
+	    if(prefijop != -1 && prefijop >= prefijoq){
+		for(int i = p-1; i >= 0; --i)
+		    if(lcp[i+1] < w){
+			sp = i;
+			break;
+		    }
+	    }
+	    if(prefijoq != -1 && prefijoq >= prefijop){
+		for(int i = q + 1; i < suffixArray.size(); ++i)
+		    if(lcp[i] < w){
+			sq = i;
+			break;
+		    }
+	    }
+
+	    System.out.println("sp: " + sp);
+	    /* Ahora, obtenemos los SAGP de tipo 1 */
+
+	    /* Primero para el caso en el que lcp(p, k) > lcp(k, q) */
+	    List<Par> canonicos = new ArrayList<>(); /* Lista de SAGP maximales canónicos */
+	    if(sp != -1)
+		for(int i = sp+1; i <= p; ++i){
+		    int sufijo = suffixArray.get(i)-1; /* Sufijo a examinar */
+		    System.out.println("sufijo: " + sufijo);
+		    if(sufijo > t.length() && op(sufijo) < (inicial - 1)) /* Hay un sagp */
+			canonicos.add(new Par(op(sufijo) - w+1, posicion + pals[posicion] + w-1));
+		}
+
+	    /* Ahora para sq */
+	    if(sq != -1)
+		for(int i = sq-1; i >= q; --i){
+		    int sufijo = suffixArray.get(i); /* Sufijo a examinar */
+		    if(sufijo > t.length()&& op(sufijo) < (inicial - 1)) /* Hay un sagp */
+			canonicos.add(new Par(op(sufijo) - w+1, posicion + pals[posicion] + w-1));
+		}
+	    
+	    /* Llenamos con el sagp maximal canónico encontrado */
+	    sagp.set(posicion, canonicos); 
+	}
+    }
+    
+    /* Calcula la posición original de un índice mayor o igual que n+2 para el algoritmo cuadrático simple */
     private int op(int indice){
-	return 0;
+	return 2*t.length() - indice;
     }
       
     
