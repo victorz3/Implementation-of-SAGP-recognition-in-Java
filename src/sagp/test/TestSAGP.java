@@ -108,8 +108,8 @@ public class TestSAGP{
 	Assert.assertTrue(sagp.equals(resultado));
 	sagp = instancia.getSAGP(13);
 	resultado = new ArrayList<>();
-	resultado.add(new Par(6, 18));
 	resultado.add(new Par(3, 18));
+	resultado.add(new Par(6, 18));
 	Assert.assertTrue(sagp.equals(resultado));
 	sagp = instancia.getSAGP(16);
 	resultado = new ArrayList<>();

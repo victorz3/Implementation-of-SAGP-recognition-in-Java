@@ -143,19 +143,14 @@ public class SAGP{
 	/* Iteramos sobre los sufijos */
 	for(Integer posicion: this.tipo1){
 	    int k = reversed[posicion + pals[posicion]] -1; /* Posición de T[i + Pals[i] + 1..n] en SAT */
-	    for(Integer x: suffixArray)
-		System.out.println(sT.getCadena().substring(x-1));
-	    System.out.println("k: " + k);
 	    int inicial = posicion - pals[posicion]; /* Posición inicial de uuR */
-	    System.out.println("inicial: " + inicial);
+
 	    /* Ahora recorremos SA hacia atrás y hacia adelante */
+
 	    /* Primero hacia atrás */
 	    int p = -1; /* Incializamos la p del algoritmo con un valor de 'error'. */
-	    System.out.println(suffixArray);
-	    System.out.println("k: " + k);
 	    for(int i = k-1; i >= 0; --i){
 		int x = suffixArray.get(i)-1; /* El iésimo elemento del arreglo de sufijos */
-		System.out.println("x: " + x);
 		if(x > t.length() && op(x) < (inicial - 1)){
 		    p = i;
 		    break;
@@ -169,14 +164,15 @@ public class SAGP{
 		    break;
 		}
 	    }
+
 	    /* Ya tenemos los valores de p y q */
-	    System.out.println(Arrays.toString(lcp));
 	    int prefijop = -1; /* lcp(p, k) */
 	    int prefijoq = -1; /* lcp(k, q) */
 	    if(p != -1)
-		prefijop = lcp[crm.consulta(p+1, k+1)];
+		prefijop = lcp[crm.consulta(p+1, k)];
 	    if(q != -1)
-		prefijoq = lcp[crm.consulta(k+1, q+1)];
+		prefijoq = lcp[crm.consulta(k+1, q)];
+	    
 	    int w = prefijop > prefijoq ? prefijop : prefijoq; /* Longitud de la W en el SAGP */
 	    int sp = -1; /* La mayor s < p que cumple LCP[s+1] < W (donde W es la longitud de prefijo) */
 	    int sq = -1; /* La menor s > q que cumple LCP[s-1] < W (donde W es la longitud de prefijo) */
@@ -193,9 +189,11 @@ public class SAGP{
 			sq = i;
 			break;
 		    }
+		if(sq == -1) /* Se puede dar el caso de que todos los sufijos de k en adelante tengan al menos W de prefijo en común. 
+				Ojo: esto no ocurre para los sufijos de k hacia atrás pues al principio está el sufijo '#'*/
+		    sq = suffixArray.size();
 	    }
-
-	    System.out.println("sp: " + sp);
+	    
 	    /* Ahora, obtenemos los SAGP de tipo 1 */
 
 	    /* Primero para el caso en el que lcp(p, k) > lcp(k, q) */
@@ -203,7 +201,6 @@ public class SAGP{
 	    if(sp != -1)
 		for(int i = sp+1; i <= p; ++i){
 		    int sufijo = suffixArray.get(i)-1; /* Sufijo a examinar */
-		    System.out.println("sufijo: " + sufijo);
 		    if(sufijo > t.length() && op(sufijo) < (inicial - 1)) /* Hay un sagp */
 			canonicos.add(new Par(op(sufijo) - w+1, posicion + pals[posicion] + w-1));
 		}
@@ -211,7 +208,7 @@ public class SAGP{
 	    /* Ahora para sq */
 	    if(sq != -1)
 		for(int i = sq-1; i >= q; --i){
-		    int sufijo = suffixArray.get(i); /* Sufijo a examinar */
+		    int sufijo = suffixArray.get(i)-1; /* Sufijo a examinar */
 		    if(sufijo > t.length()&& op(sufijo) < (inicial - 1)) /* Hay un sagp */
 			canonicos.add(new Par(op(sufijo) - w+1, posicion + pals[posicion] + w-1));
 		}
