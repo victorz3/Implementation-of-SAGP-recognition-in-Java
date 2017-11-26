@@ -43,8 +43,8 @@
              author="false"
              version="false"
              use="true"
-             windowtitle="Introducción a Ciencias de la Computación">
-      <doctitle><![CDATA[<h1>Introducción a Ciencias de la Computación</h1>]]></doctitle>
+             windowtitle="Reconocimiento de SAGP">
+      <doctitle><![CDATA[<h1>Reconocimiento de SAGP</h1>]]></doctitle>
       <link href="http://docs.oracle.com/javase/8/docs/api/" />
       <link href="http://docs.oracle.com/javafx/2/api/" />
       <classpath>
