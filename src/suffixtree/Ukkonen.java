@@ -100,7 +100,7 @@ public class Ukkonen{
     }
 
     /* Rutina para cuando un carácter ya fue insertado */
-    public void rutinaInsertado(char actual){
+    public void avanzaPuntoActivo(char actual){
 	if(activeEdge == null) /* Si no hay arista activa, la creamos */
 	    activeEdge = this.busca(actual); /* Buscamos la arista que empieza con el carácter */
 	/* Verificamos si ya nos salimos de la arista */
@@ -115,7 +115,7 @@ public class Ukkonen{
     /** Rutina para verificar que al cambiar de nodo activo, no nos salgamos de la arista activa. 
      * @param i - posición del último carácter leído.
      */
-    public void rutinaSalida(MutableInt i){
+    public void verificaSalida(MutableInt i){
 	while(activeEdge != null && activeLength >= activeEdge.longitud()){
 	    activeNode = activeEdge.getHasta();
 	    activeLength -= activeEdge.longitud(); 
@@ -142,7 +142,7 @@ public class Ukkonen{
 	    if(activeEdge != null)
 		activeEdge = busca(activeEdge.getPrimero());
 	}
-	rutinaSalida(i);
+	verificaSalida(i);
     }
   
     /* Construye el árbol de sufijo para la cadena s */
@@ -156,12 +156,12 @@ public class Ukkonen{
 	    actual = s.charAt(i.getValue()); /* Leemos el siguiente carácter */
 	    restantes++; /* Un sufijo más por insertar */
 	    if(insertado(actual))
-		rutinaInsertado(actual);
+		avanzaPuntoActivo(actual);
  	    else{ /* El carácter no se ha insertado */
 		/* Lo insertamos */
 		while(restantes > 0){
 		    if(insertado(actual)){
-			rutinaInsertado(actual);
+			avanzaPuntoActivo(actual);
 			break;
  		    }
 		    if(activeEdge == null){ /* El caso de insertar en una arista completamente nueva */
@@ -190,7 +190,7 @@ public class Ukkonen{
 			if(activeNode == root){
 			    activeLength--;
 			    activeEdge = activeLength == 0 ? null : busca(s.charAt((i.getValue()-restantes)+1));
-			    rutinaSalida(i);
+			    verificaSalida(i);
 			}else
 			    regla2(i);
 		    }

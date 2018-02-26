@@ -99,7 +99,6 @@ public class TestSAGP{
 	List<Par> sagp = instancia2.getSAGP(3);
 	List<Par> resultado = new ArrayList<>();
 	resultado.add(new Par(0, 4));
-	System.out.println(sagp);
 	Assert.assertTrue(sagp.equals(resultado));
 	instancia.simpleQuadraticSAGP1();
 	sagp = instancia.getSAGP(3);
